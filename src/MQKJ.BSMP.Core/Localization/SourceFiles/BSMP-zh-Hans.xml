@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="zh-Hans">
+  <texts>
+    <text name="HomePage" value="主页" />
+    <text name="About" value="关于我们" />
+    <text name="WellcomeMessage" value="欢迎使用 BSMP!" />
+
+    <text name="Refresh" value="刷新" />
+    <text name="Pages" value="默认页面权限" />
+    <text name="Administration" value="默认操作权限" />
+    <text name="FormIsNotValidMessage" value="部分输入信息不符合要求，请检查并改正.." />
+    <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
+
+    <text name="InvalidUserNameOrPassword" value="用户名或密码无效" />
+    <text name="ThereIsNoTenantDefinedWithName{0}" value="租户 {0}不存在" />
+    <text name="TenantIsNotActive" value="租户 {0} 未激活." />
+    <text name="UserIsNotActiveAndCanNotLogin" value="用户 {0} 未激活，不能登录." />
+    <text name="PleaseEnterLoginInformation" value="请输入登录信息" />
+    <text name="TenancyName" value="租户名称" />
+    <text name="UserNameOrEmail" value="用户名或邮箱地址" />
+    <text name="Password" value="密码" />
+    <text name="RememberMe" value="记住我" />
+    <text name="LogIn" value="登录" />
+    <text name="Logout" value="退出登录" />
+    <text name="ModifyPassword" value="修改密码" />
+    <text name="OldPassword" value="旧密码" />
+    <text name="NewPassword" value="新密码" />
+    <text name="ConfirmPassword" value="确认" />
+
+    <text name="PlayerManager" value="用户管理" />
+    <text name="Player" value="用户管理"></text>
+
+    <text name="GameTaskManager" value="任务管理" />
+    <text name="GameTasks" value="任务管理" />
+    <text name="GameTaskListManager" value="任务列表"></text>
+    <text name="BonusPoints" value="积分记录" />
+    <text name="BonusPointRecord" value="积分管理" />
+    <text name="AllBonusPointRecord" vlaue="查看所有积分" />
+
+    <text name="ContentManager" value="内容管理" />
+    <text name="Questions" value="问答管理" />
+    <text name="Scenes" value="场景管理" />
+    <text name="Topics" value="话题管理" />
+    <text name="Activities" value="活动" />
+    <text name="Adviertisement" value="广告管理" />
+
+    <text name="SceneName" value="场景名称" />
+    <text name="UploadFile" value="图片上传" />
+    <text name="SceneFile" value="场景文件" />
+    <text name="SceneFileName" value="场景图片名" />
+
+    <text name="TagsManager" value="标签管理" />
+    <text name="Tags" value="标签" />
+    <text name="TagType" value="标签类型" />
+
+    <text name="DataStatistics" value="数据统计" />
+    <text name="PassModel" value="闯关模式" />
+    <text name="OpeningStatistics" value="开局统计" />
+    <text name="LevelStatistics" value="关卡分布" />
+    <text name="AnswerQuestionStatistics" value="答题统计" />
+    <text name="GamblingModel" value="赌约模式" />
+    <text name="ErrorQuestionStatistics" value="错题分布" />
+    <text name="QuestionStatistics" value="题目统计" />
+    <text name="DebugModel" value="调试模式" />
+    <text name="ModifyFloor" value="修改关卡" />
+    <text name="Authoritys" value="权限管理" />
+    <text name="RiskActiveApply" value="活动报名" />
+    <text name="SimulationSpouse" value="模拟夫妻活动" />
+    <text name="SystemManager" value="系统管理" />
+    <text name="Users" value="管理员管理" />
+    <text name="Delete" value="删除" />
+    <text name="Edit" value="编辑" />
+    <text name="UserDetails" value="用户信息" />
+    <text name="CreateNewUser" value="创建新用户" />
+    <text name="UserRoles" value="用户角色" />
+    <text name="UserName" value="用户名" />
+    <text name="Name" value="名字" />
+    <text name="Surname" value="姓" />
+    <text name="EmailAddress" value="邮箱" />
+    <text name="IsActive" value="是否活跃" />
+    <text name="Roles" value="角色管理" />
+    <text name="CreateNewRole" value="创建新的角色" />
+    <text name="EditRole" value="编辑角色" />
+    <text name="Permissions" value="权限" />
+    <text name="RoleName" value="角色名" />
+    <text name="DisplayName" value="显示名字" />
+    <text name="RoleDescription" value="角色描述" />
+    <!--<text name="Authoritys" value="权限管理" />-->
+
+    <text name="CardManage" value="卡片管理" />
+
+    <!--<text name="PlayerManager" value="玩家管理" />-->
+    <text name="Pay" value="支付测试" />
+    <text name="ChineseBabies" value="中国式养娃" />
+    <text name="AgentManage" value="代理模块" />
+    <text name="AgentInviteCode" value="邀请码管理" />
+    <text name="AgentIncomeManage" value="代理业绩管理" />
+    <text name="WithdrawMoney" value="提现管理" />
+    <text name="UploadsData" value="上传数据" />
+    <text name="RunWaterRecord" value="流水管理" />
+    <text name="AgentFamily" value="代理家庭" />
+    <text name="AgentIncome" value="代理业绩" />
+    <text name="Agent" value="代理管理" />
+    <text name="MqAgent" value="代理管理" />
+    <text name="ToggleVtlRhgPerm" value="开启/关闭虚拟支付" />
+    <text name="ExportAgentIncomesToExcel" value="导出代理业绩表" />
+    <text name="GetAgentIncomes" value="获取代理业绩数据" />
+    <text name="Order" value="订单管理权限" />
+    <text name="QueryOrders" value="查询订单数据" />
+    <text name="QueryOrderState" value="查询订单状态" />
+    <text name="ExportToExcel" value="导出订单数据" />
+    <text name="GetAgentInviteCodes" value="获取代理邀请码数据" />
+    <text name="CreateAgentInviteCode" value="创建代理邀请码" />
+    <text name="EnterpirsePaymentRecord" value="提现管理" />
+    <text name="GetEnterpirsePaymentRecordPags" value="获取提现记录" />
+    <text name="RefuseAuditeWithDrawMoney" value="拒绝提现" />
+    <text name="WithDrawMoneyForAgent" value="提现通过" />
+    <text name="ExportExcel" value="导出提现记录" />
+    <text name="ManualPass" value="手动通过" />
+    <text name="GetAllRunWaterRecords" value="获取流水记录" />
+    <text name="ExportRunWaterRecordToExcel" value="导出流水数据" />
+    <text name="GetAgents" value="获取代理列表" />
+    <text name="UpdateAgentRatio" value="更新代理收益比例" />
+    <text name="UpdatePromoterRatio" value="更新推广收益比例" />
+    <text name="UpdateAgentState" value="更新代理状态" />
+    <text name="ModifyGrown" value="宝宝成人"></text>
+
+    <text name="Families" value="家庭权限" />
+    <text name="ExportFamiliesToExcel" value="导出家庭数据表" />
+    <text name="GetAllFamilys" value="获取家庭数据" />
+    <text name="SupplementCoinRecharge" value="家庭充值金币" />
+    <!--<text name="AgentInviteCode" value="邀请码" />-->
+    <!--<text name="GameTaskManager" value="游戏任务管理" />
+    <text name="GameTasks" value="任务" />
+    <text name="BonusPoints" value="积分" />
+    <text name="Questions" value="问题" />
+    <text name="Scenes" value="场景" />
+    <text name="TagsManager" value="标签管理" />
+    <text name="RiskActiveApply" value="大冒险活动" />
+    <text name="DataStatistics" value="数据统计" />
+    <text name="OpeningStatistics" value="开局统计" />
+    <text name="Refresh" value="刷新" />
+    <text name="调试模式" value="DebugModel" />
+    <text name="GamblingModel'" value="赌约模式" />
+    <text name="ModifyFloor'" value="修改楼层" />
+    <text name="PleaseWait'" value="等待" />
+    <text name="StartTyping'" value="开始类型" />-->
+
+    <text name="LoginFailed" value="登录失败!" />
+    <text name="Id" value="序号" />
+    <text name="TagTypeName" value="类型名" />
+    <text name="Code" value="编码" />
+    <text name="CreateTitle" value="添加{0}" />
+    <text name="EditTitle" value="编辑{0}" />
+    <text name="TagName" value="标签名"></text>
+    <text name="Sort" value="排序"></text>
+    <text name="AreYouSureWantToDelete" value="你确认要删除{0}吗？" />
+    <text name="WechatAppId" value="公众号/小程序AppId" />
+    <text name="WechatAppSecret" value="密码" />
+    <text name="IsApplyWechat" value="是否启用微信配置" />
+    <text name="Tenants" value="租户管理" />
+    <text name="Question" value="问题管理"></text>
+    <text name="AllQuestions" value="查看所有问题"></text>
+    <text name="AuditQuestion" value="审核问题"></text>
+    <text name="OrderManage" value="订单管理"></text>
+    <text name="FamilyManage" value="家庭管理"></text>
+    <text name="UserManagment" value="用户管理" />
+    <text name="UserManagment.QuerySubsidy" value="查询补贴" />
+  </texts>
+
+
+</localizationDictionary>

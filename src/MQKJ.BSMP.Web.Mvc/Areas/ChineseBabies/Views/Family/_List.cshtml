@@ -1,0 +1,107 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@using X.PagedList
+@using X.PagedList.Mvc.Common
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.EnumHelper
+@model StaticPagedList<MQKJ.BSMP.ChineseBabies.Families.Dtos.GetAllFamilysListDto>
+
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>家庭ID</th>
+            <th>创建时间</th>
+            <th>宝爸昵称</th>
+            <th>宝爸头像</th>
+            <th>宝妈昵称</th>
+            <th>宝妈头像</th>
+            <th>宝宝昵称</th>
+            <th class="sort_type sort-by-money" data-order="0">存款 <span class="glyphicon glyphicon-sort"></span></th>
+            <th class="sort_type sort-by-recharge" data-order="0">充值金额 <span class="glyphicon glyphicon-sort"></span></th>
+            <th>累计补贴流水</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.CreationTime</td>
+            <td>@item.Father.NickName</td>
+            <td><img src="@item.Father.HeadUrl" class="user-header-img" /></td>
+            <td>@item.Mother.NickName</td>
+            <td><img src="@item.Mother.HeadUrl" class="user-header-img" /></td>
+            @{
+                if (item.Babies.Count == 0)
+                {
+                    <td>无</td>
+                }
+                else
+                {
+                    <td>@item.Babies.LastOrDefault().Name</td>
+                }
+            }
+            <td>@item.Deposit</td>
+            <td>@Math.Round(item.ChargeAmount,2)</td>
+            <td>@item.TotalSubsidyAmount</td>
+            <td class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    @{
+                        <li>
+                            <a class="waves-effect  waves-block" data-family-id="@item.Id" data-toggle="modal" data-target="#rechargeCoinModal">
+                                <i class="material-icons">add</i>充值金币
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect  waves-block" data-family-id="@item.Id" data-baby-name="@item.Babies.LastOrDefault()?.Name" data-toggle="modal" data-target="#subsidyModal">
+                                <i class="material-icons">attach_money</i>补贴流水
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@*@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))*@
+
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions() {
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+    DisplayLinkToNextPage = PagedListDisplayMode.Never,
+    LinkToFirstPageFormat = "首页",
+    LinkToLastPageFormat = "末页",
+    DisplayPageCountAndCurrentLocation = true,
+    PageCountAndCurrentLocationFormat = "每页" + Model.Count + "条共{1}页",
+    //DisplayItemSliceAndTotal = true,
+    //ItemSliceAndTotalFormat = "每页{1}条"
+})
+
+
+<style type="text/css">
+    .PagedList-pageCountAndLocation {
+        position: absolute;
+        right: 20px;
+        /*color:red !important;*/
+    }
+    .sort_type{
+        cursor:pointer;
+    }
+</style>
+
+

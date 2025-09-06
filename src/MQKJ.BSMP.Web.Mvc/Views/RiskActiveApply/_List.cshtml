@@ -1,0 +1,57 @@
+﻿@using X.PagedList.Mvc.Common;
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using MQKJ.BSMP.ActiveApply.Dtos;
+@using MQKJ.BSMP.Utils.Extensions;
+@model StaticPagedList<RiskActiveApplyListDto>
+
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+    var data = await Model.ToListAsync();
+}
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { DisplayLinkToNextPage = PagedListDisplayMode.Never, DisplayLinkToPreviousPage = PagedListDisplayMode.Never, LinkToFirstPageFormat = "1", LinkToPreviousPageFormat = "上一页", LinkToLastPageFormat = Model.PageCount.ToString() })
+<table class="table">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>期号</th>
+            <th>昵称</th>
+            <th>微信号</th>
+            <th>手机号</th>
+            <th>识别码</th>
+            <th>性别</th>
+            <th>出生日期</th>
+            <th>年龄</th>
+            <th>星座</th>
+            <th>身高（公分）</th>
+            <th style="width:15%">地址</th>
+            <th style="width:15%">交友宣言</th>
+            <th style="width:15%">自我介绍</th>
+            <th style="width:15%">兴趣爱好</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in data)
+        {
+            <tr>
+                <td>@(data.IndexOf(item) + 1 + snStart)</td>
+                <td>@item.Season</td>
+                <td>@item.NickName</td>
+                <td>@item.WechatId</td>
+                <td>@item.TeleNumber</td>
+                <td>@item.Code</td>
+                <td>@item.Gender</td>
+                <td>@(item.BirthDateTime == null ? "无" : item.BirthDateTime.ToString("yyyy-MM-dd"))</td>
+                <td>@item.BirthDateTime.GetAgeByBirthdate()</td>
+                <td>@item.BirthDateTime.GetAtomFromBirthday()</td>
+                <td>@item.Height</td>
+                <td>@item.Address</td>
+                <td>@item.DeclarationOfDating</td>
+                <td>@item.SelfIntroduction</td>
+                <td>@item.Hobbies</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { DisplayLinkToNextPage = PagedListDisplayMode.Never, DisplayLinkToPreviousPage = PagedListDisplayMode.Never, LinkToFirstPageFormat = "1", LinkToPreviousPageFormat = "上一页", LinkToLastPageFormat = Model.PageCount.ToString() })
+

@@ -1,0 +1,90 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:21019/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Development": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:21021",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:21021"
+      }
+    },
+    "Localhost": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:21021",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Localhost",
+        "ASPNETCORE_URLS": "http://localhost:21021"
+      }
+    },
+    "TestingQA": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:21021",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "TestingQA",
+        "ASPNETCORE_URLS": "http://localhost:21021"
+      }
+    },
+    //Î¢ÐÅ¹«ÖÚºÅ
+    "MQKJ.BSMP.Web.Host-OpenAuth": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:21022",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://localhost:21022",
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
+    "Staging": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:21022",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://localhost:21022",
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
+    "Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://192.168.123.105:21022",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://192.168.123.105:21022",
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    },
+    "MQKJ.BSMP.Web.Host-gtp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://192.168.3.25:21021",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://192.168.3.25:21021",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Staging Ip": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://172.20.10.5:21022",
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    }
+  }
+}

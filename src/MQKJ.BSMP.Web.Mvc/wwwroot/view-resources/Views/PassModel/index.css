@@ -1,0 +1,22 @@
+﻿
+.content {
+    margin: 30px auto;
+    width: 1000px;
+    height: 409px;
+    border: #dfdfdf solid 1px;
+    overflow: hidden;
+}
+
+    .content li {
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 14px;
+        border-bottom: #e8e8e8 solid 1px;
+    }
+
+.page {
+    text-align: center;
+    margin-bottom: 200px;
+}

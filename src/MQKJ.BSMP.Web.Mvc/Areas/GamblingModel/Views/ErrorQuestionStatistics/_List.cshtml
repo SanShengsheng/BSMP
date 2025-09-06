@@ -1,0 +1,32 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model StaticPagedList<MQKJ.BSMP.GamblingModelStatistics.Dtos.GetErrQuestionDistributionOutput>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>关卡</th>
+            <th>关卡数量</th>
+            <th>平均做错次数</th>
+            <th>最高做错次数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TaskType</td>
+                        <td>@item.RelationCount</td>
+                        <td>@item.AverageAnswerErrQuestionCount</td>
+                        <td>@item.HighestAnswerErrQuestionCount</td>
+                    </tr>
+                }
+            }
+        </tr>
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+

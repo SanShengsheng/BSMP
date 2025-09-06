@@ -1,0 +1,109 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@using X.PagedList
+@using X.PagedList.Mvc.Common;
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.EnumHelper
+@model StaticPagedList<MQKJ.BSMP.Common.Dtos.WeChatWebUserListDto>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>序号</th>*@
+            <th>注册时间</th>
+            <th>昵称</th>
+            <th>姓名</th>
+            <th>头像</th>
+            <th>性别</th>
+            <td>年龄</td>
+            <th>城市</th>
+            <th>职业</th>
+            <th>兴趣</th>
+            <td>状态</td>
+            <td>自己的微信号</td>
+            <td>对方的微信号</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>@item.CreationTime</td>
+            <td>@item.NickName</td>
+            <td>@item.UserName</td>
+            <td><img src="@item.HeadUrl" class="user-header-img" /></td>
+            @{
+                if (item.Gender == 1)
+                {
+
+                    <td>男</td>
+                }
+                else if (item.Gender == 2)
+                {
+                    <td>女</td>
+
+                }
+                else
+                {
+                    <td>未知</td>
+
+                }
+                <td>@item.Age</td>
+                <td>@item.City</td>
+                <td>@item.Profession</td>
+                <td>@item.Interest</td>
+                <td>@EnumHelper.GetDescription(item.State)</td>
+                <td>@item.WechatAccount</td>
+                <td>@item.OtherWechatAccount</td>
+                if (item.State == MQKJ.BSMP.Common.UserState.SumitInfo)
+                {
+                    <td class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a class="waves-effect  waves-block" data-user-id="@item.Id" data-option="signUp" data-wechatAccount="@item.WechatAccount" data-target="#wechatAccountModal" data-toggle="modal">
+                                    <i class="material-icons">edit</i>报名
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect  waves-block" data-user-id="@item.Id" data-option="match" data-wechatAccount="@item.OtherWechatAccount" data-target="#wechatAccountModal" data-toggle="modal">
+                                    <i class="material-icons">edit</i>匹配
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                }
+            }
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions() {
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+    DisplayLinkToNextPage = PagedListDisplayMode.Never,
+    LinkToFirstPageFormat = "首页",
+    LinkToLastPageFormat = "末页",
+    DisplayPageCountAndCurrentLocation = true,
+    PageCountAndCurrentLocationFormat = "每页" + Model.Count + "条共{1}页",
+    //DisplayItemSliceAndTotal = true,
+    //ItemSliceAndTotalFormat = "每页{1}条"
+})
+
+<style type="text/css">
+    .PagedList-pageCountAndLocation {
+        position: absolute;
+        right: 20px;
+        /*color:red !important;*/
+    }
+</style>
+
+

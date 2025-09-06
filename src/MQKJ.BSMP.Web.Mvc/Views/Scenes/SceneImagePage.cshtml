@@ -1,0 +1,118 @@
+﻿@using Abp.Application.Services.Dto
+@using MQKJ.BSMP.Scenes.Dto
+@using MQKJ.BSMP.SceneFiles.Dto
+@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP
+@model Abp.Application.Services.Dto.PagedResultDto<GetScenesListDto>
+@{
+    //ViewBag.CurrentPageName = PageNames.Scenes;
+}
+@section styles {
+    <link href="~/view-resources/Views/Scenes/index.css" rel="stylesheet" asp-append-version="true" />
+}
+@section scripts
+    {
+    <environment names="Development,TestingQA">
+        <script src="~/view-resources/Views/Scenes/SceneImage.js" charset="gbk" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/Scenes/SceneImage.js" charset="gbk" asp-append-version="true"></script>
+    </environment>
+}
+<div class="row clearfix">
+    <a class="backscenepage" href="/Scenes">返回</a>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                @*<h2>
+                        场景图片
+                    </h2>*@
+            </div>
+            <div class="row">
+                @foreach (var item in ViewData["imageList"] as List<GetSceneFileOutput>)
+                {
+                    <div class="col-md-2" onclick="">
+                        <a href="#" class="thumbnail">
+                            <img src="@item.File.FilePath" alt="场景图" />
+                        </a>
+                        <span class="scenename-1">@item.SceneFileName</span>
+                        <div class="caption dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">menu</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#" class="waves-effect waves-block default-sceneimage" data-sceneId="@item.SceneId" data-sceneFile-id="@item.Id" data-role-name="ss"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
+                                <li><a href="#" class="waves-effect waves-block default-sceneimage" data-sceneId="@item.SceneId" data-sceneFile-id="@item.Id" data-role-name="ss"><i class="material-icons">bookmark</i>Default</a></li>
+                                @if (item.File.ThumbnailImagePath == null)
+                                {
+                                    <li><a href="#" class="waves-effect waves-block create-thumbnail-sceneimage" data-sceneFile-id="@item.File.Id" data-role-name="ss"><i class="material-icons">image</i>生成缩略图</a></li>
+                                }
+
+                            </ul>
+                        </div>
+                        @{
+                            if (item.IsDefault)
+                            {
+                                <span class="defaultimage">默认</span>
+                            }
+                        }
+                    </div>
+                }
+                <div class="col-md-2">
+                    <button class="btn btn-primary customsize_1" id="uploadSceneImages" data-toggle="modal" data-target="#uploadSceneImageModal">上传场景图片</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="uploadSceneImageModal" tabindex="-1" role="dialog" aria-labelledby="uploadSceneImageModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    @L("UploadFile")
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form name="sceneImageUploadForm" enctype="multipart/form-data" role="form" novalidate class="form-validation">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="file-loading">
+                                    <input id="scenefilename" name="scenefilename" type="text" multiple>
+                                    <label for="scenefilename" class="form-label">@L("SceneFileName")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="file-loading">
+                                    <input id="scenefile" name="sceneFile" type="file" accept="image/png,image/jpg,image/JPEG,image/gif" multiple class="file-loading">
+                                    @*<label for="scenefile" class="form-label">@L("SceneFile")</label>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary waves-effect">上传</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="modal fade" id="uploadSceneImage" tabindex="-1" role="dialog" aria-labelledby="uploadSceneImageLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>*@

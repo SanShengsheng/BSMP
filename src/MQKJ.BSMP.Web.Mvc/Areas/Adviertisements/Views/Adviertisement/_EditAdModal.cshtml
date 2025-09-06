@@ -1,0 +1,207 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP.Common.AD;
+@using MQKJ.BSMP.Web.Models.Common.Modals
+@model MQKJ.BSMP.Web.Areas.Adviertisements.Models.EditAdModel
+@{
+    Layout = null;
+}
+@section scripts{
+    <script src="~/lib/laydate/laydate.js"></script>
+    <script src="~/view-resources/Views/AD/EditAdModal.js"></script>
+}
+@Html.Partial("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("编辑广告位"))
+<div class="modal-body">
+    <form name="AdEditForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div role="tabpanel" class="tab-pane animated fadeIn active" id="edit-ad-details">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-user-details">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_ADName">广告位名称</label>
+                                    <input type="text" id="edit_ADName" name="Name" value="@Model.Name" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_APPID">小程序APPID</label>
+                                    <input type="text" id="edit_APPID" name="AppId" class="form-control" value="@Model.AppId" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_bannerImage">Banner图</label>
+                                    <input type="text" id="edit_bannerImage" name="BannerImagePath" value="@Model.BannerImagePath" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_insertImage">插图</label>
+                                    <input type="text" id="edit_insertImage" name="InsertImagePath" value="@Model.InsertImagePath" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_fixedImage">悬浮图</label>
+                                    <input type="text" id="edit_fixedImage" name="FixedImagePath" value="@Model.FixedImagePath" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_WordLink">文字链</label>
+                                    <input type="text" id="edit_WordLink" name="WordLink" value="@Model.WordLink" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="MinPorgramLogo">小程序logo</label>
+                                    <input type="text" id="MinPorgramLogo" name="MinPorgramLogo" value="@Model.MinPorgramLogo" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_MinPorgramQR">小程序码</label>
+                                    <input type="text" id="edit_MinPorgramQR" name="MinPorgramQRPath" value="@Model.MinPorgramQRPath" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_ExpandPath">路径</label>
+                                    <input type="text" id="edit_ExpandPath" name="ExpandPath" value="@Model.ExpandPath" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_Publink">公众号链接</label>
+                                    <input type="text" id="edit_Publink" name="PubLink" value="@Model.PubLink" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_AdState">广告位状态</label>
+                                    <select id="edit_AdState" name="AdviertisementState" class="form-control">
+                                        @{
+                                            if (Model.AdviertisementState == AdviertisementState.Normal)
+                                            {
+                                                <option selected="selected" value="@AdviertisementState.Normal.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Normal)</option>
+                                                <option value="@AdviertisementState.Close.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Close)</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@AdviertisementState.Normal.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Normal)</option>
+                                                <option selected="selected" value="@AdviertisementState.Close.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Close)</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_adPlatform">广告位所属平台</label>
+                                    <select id="edit_adPlatform" name="AdviertisementPlatform" class="form-control">
+                                        @{
+                                            if (Model.AdviertisementPlatform == AdviertisementPlatform.WeChat)
+                                            {
+                                                <option selected="selected" value="@AdviertisementPlatform.WeChat.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.WeChat)</option>
+                                                <option value="@AdviertisementPlatform.XiaoMeng.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.XiaoMeng)</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@AdviertisementPlatform.WeChat.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.WeChat)</option>
+                                                <option selected="selected" value="@AdviertisementPlatform.XiaoMeng.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.XiaoMeng)</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_adApplication">广告位所属应用</label>
+                                    <select id="edit_adApplication" name="TenantId" class="form-control">
+                                        @foreach (var item in Model.Tenants)
+                                        {
+                                            if (item.Id == Model.TenantId)
+                                            {
+                                                <option selected="selected" value="@item.Id">@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="edit_EndTime">结束时间</label>
+                                    <input type="text" id="edit_endTime" name="EndTime" value="@Model.EndTime.ToString("yyyy-MM-dd")" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+<script src="~/view-resources/Views/AD/EditAdModal.js" asp-append-version="true"></script>
+
+

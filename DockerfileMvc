@@ -1,0 +1,28 @@
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM microsoft/dotnet:2.1-sdk AS build
+WORKDIR /src
+COPY ./src/MQKJ.BSMP.Web.Mvc/MQKJ.BSMP.Web.Mvc.csproj src/MQKJ.BSMP.Web.Mvc/
+COPY ./src/MQKJ.BSMP.Utils/MQKJ.BSMP.Utils.csproj src/MQKJ.BSMP.Utils/
+COPY ./src/MQKJ.BSMP.Web.Core/MQKJ.BSMP.Web.Core.csproj src/MQKJ.BSMP.Web.Core/
+COPY ./src/MQKJ.BSMP.Application/MQKJ.BSMP.Application.csproj src/MQKJ.BSMP.Application/
+COPY ./src/MQKJ.BSMP.Core/MQKJ.BSMP.Core.csproj src/MQKJ.BSMP.Core/
+COPY ./src/MQKJ.BSMP.EntityFrameworkCore/MQKJ.BSMP.EntityFrameworkCore.csproj src/MQKJ.BSMP.EntityFrameworkCore/
+RUN dotnet restore ./src/MQKJ.BSMP.Web.Mvc/MQKJ.BSMP.Web.Mvc.csproj
+COPY . .
+WORKDIR /src/src/MQKJ.BSMP.Web.Mvc
+RUN dotnet build ./MQKJ.BSMP.Web.Mvc.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish ./MQKJ.BSMP.Web.Mvc.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+VOLUME ["/app/wwwroot"]
+VOLUME ["/app/App_Data"]
+
+
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "MQKJ.BSMP.Web.Mvc.dll"]

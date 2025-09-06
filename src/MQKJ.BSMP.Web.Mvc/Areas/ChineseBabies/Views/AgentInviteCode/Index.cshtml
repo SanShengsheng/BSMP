@@ -1,0 +1,104 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.Common.MqAgents;
+@using MQKJ.BSMP.EnumHelper;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.CurrentPageName = PageNames.AgentManage; // The menu item will be active for this page.
+}
+
+@section scripts{
+    <script src="~/view-resources/Views/InviteCode/inviteCode.js"></script>
+    <script src="~/lib/laydate/laydate.js"></script>
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    邀请码管理
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">代理类型</label>
+                            <select id="inviteCodeType" class="col-sm-2">
+                                <option value="0">不限</option>
+                                <option value="@(MqAgentCategory.AgentCategory.GetHashCode())">@EnumHelper.GetDescription(MqAgentCategory.AgentCategory)</option>
+                                <option value="@MqAgentCategory.SpreadCategory.GetHashCode()">@EnumHelper.GetDescription(MqAgentCategory.SpreadCategory)</option>
+                                <option value="@MqAgentCategory.SecodeCategory.GetHashCode()">@EnumHelper.GetDescription(MqAgentCategory.SecodeCategory)</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">邀请码状态</label>
+                            <select id="inviteCodeState" class="col-sm-2">
+                                <option value="0">不限</option>
+                                <option value="@InviteCodeState.UnKnow.GetHashCode()">@EnumHelper.GetDescription(InviteCodeState.UnKnow)</option>
+                                <option value="@InviteCodeState.UsedState.GetHashCode()">@EnumHelper.GetDescription(InviteCodeState.UsedState)</option>
+                                <option value="@InviteCodeState.UnUseState.GetHashCode()">@EnumHelper.GetDescription(InviteCodeState.UnUseState)</option>
+                            </select>
+                            @*<label style="margin:0px 15px 0px 15px;" for="starttime" class="form-label">从</label>
+        <input id="startTime" type="text" value="" name="starttime" readonly="readonly" class="form-inline">
+        <label style="margin:0px 8px 0px 8px;" class="form-label">至</label>
+        <input id="endTime" type="text" value="" name="endtime" readonly="readonly" class="form-inline">*@
+                            <button style="margin-left:20px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="searchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                            <button style="margin-left:60px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float customsize" data-toggle="modal" data-target="#agentCreateModal">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agentCreateModal" tabindex="-1" role="dialog" aria-labelledby="agentCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">新增邀请码</h4>
+            </div>
+            <div class="modal-body">
+                <form name="sceneCreateForm" role="form" novalidate class="form-validation">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">代理类型</label>
+                                    <select id="selectType" class="col-sm-3">
+                                        <option value="@MqAgentCategory.AgentCategory.GetHashCode()">@EnumHelper.GetDescription(MqAgentCategory.AgentCategory)</option>
+                                        <option value="@MqAgentCategory.SpreadCategory.GetHashCode()">@EnumHelper.GetDescription(MqAgentCategory.SpreadCategory)</option>
+                                        @*<option value="@MqAgentCategory.SecodeCategory.GetHashCode()">@EnumHelper.GetDescription(MqAgentCategory.SecodeCategory)</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary waves-effect" id="add-invitecode">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+</div>

@@ -1,0 +1,110 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.EnumHelper;
+@using MQKJ.BSMP.Orders;
+@{
+Layout = "~/Views/Shared/_VueLayout.cshtml";
+}
+@{
+ViewBag.CurrentPageName = PageNames.AgentManage; // The menu item will be active for this page.
+}
+
+@section scripts{
+<script src="~/view-resources/Views/Orders/index.js"></script>
+<!-- <script src="~/lib/laydate/laydate.js"></script> -->
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    订单列表
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block">
+                                    <i class="material-icons">refresh</i>刷新
+                                </a>
+                            </li>
+                            <li>
+                                <a id="ExportButton" @@click='ExportToExcel()' href="javascript:void(0);" class="waves-effect waves-block">
+                                    <i class="material-icons">refresh</i>导出Excel
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <el-row type='flex' style='padding:5px;'>
+                <el-col :span='24'>
+                    <el-form :inline="true" :model="search" class="demo-form-inline">
+                        <el-form-item label="付款人">
+                            <el-input v-model="search.userName" placeholder="付款人昵称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="支付状态">
+                            <el-select v-model="search.orderState" placeholder="活动区域">
+                                <el-option v-for='item in states' :label="item.text" :value="item.value"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-date-picker v-model="pickerdate" value-format='yyyy-MM-dd' type="daterange" align="right" unlink-panels
+                                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="订单号">
+                            <el-input v-model="search.orderNumber" placeholder="商户或微信订单号"></el-input>
+                        </el-form-item>
+                        <el-form-item label="充值平台">
+                            <el-select v-model="search.PaymentType" placeholder="充值平台">
+                                <el-option v-for='item in PaymentTypes' :label="item.text" :value="item.value"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="游戏平台">
+                            <el-select v-model="search.tenantId" placeholder="游戏平台">
+                                <el-option label="所有" value="0"></el-option>
+                                <el-option v-for='item in tenants' :value="item.id" :label="item.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        @*<el-form-item label="代理数量">
+                            <el-select v-model="search.agentCount" placeholder="代理数量">
+                                <el-option label="所有" value="0"></el-option>
+                                <el-option v-for='item in agentCounts' :value="item.value" :label="item.text"></el-option>
+                            </el-select>
+                        </el-form-item>*@
+                        <el-form-item label="充值金额">
+                            <el-select v-model="search.Amount" placeholder="充值金额">
+                                <el-option label="所有" value="0"></el-option>
+                                <el-option v-for='item in rechargeList' :value="item.moneyAmount"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        @*<el-form-item label="微信订单号">
+            <el-input v-model="search.userName" placeholder="微信订单号"></el-input>
+        </el-form-item>
+        <el-form-item label="游戏平台">
+            <el-select>
+                <el-option v-model="search.userName">1</el-option>
+                <el-option v-model="search.userName">2</el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="充值平台">
+            <el-option v-model="search.userName">1</el-option>
+            <el-option v-model="search.userName">2</el-option>
+        </el-form-item>*@
+                        <el-form-item>
+                            <el-button type="primary" @@click="onsearch">查询</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-col>
+            </el-row>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>

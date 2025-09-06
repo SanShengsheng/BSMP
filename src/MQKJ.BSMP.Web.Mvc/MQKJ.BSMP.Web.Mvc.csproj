@@ -1,0 +1,141 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>MQKJ.BSMP.Web.Mvc</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>MQKJ.BSMP.Web.Mvc</PackageId>
+    <UserSecretsId>MQKJ-BSMP-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
+    <RootNamespace>MQKJ.BSMP.Web</RootNamespace>
+    <Configurations>Debug;Release;IIS;running</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Areas\GamblingModel\Data\**" />
+    <Compile Remove="Areas\GamblingModel\Models\**" />
+    <Compile Remove="Areas\PassModel\Data\**" />
+    <Compile Remove="Areas\PassModel\Models\**" />
+    <Content Remove="Areas\GamblingModel\Data\**" />
+    <Content Remove="Areas\GamblingModel\Models\**" />
+    <Content Remove="Areas\PassModel\Data\**" />
+    <Content Remove="Areas\PassModel\Models\**" />
+    <EmbeddedResource Remove="Areas\GamblingModel\Data\**" />
+    <EmbeddedResource Remove="Areas\GamblingModel\Models\**" />
+    <EmbeddedResource Remove="Areas\PassModel\Data\**" />
+    <EmbeddedResource Remove="Areas\PassModel\Models\**" />
+    <None Remove="Areas\GamblingModel\Data\**" />
+    <None Remove="Areas\GamblingModel\Models\**" />
+    <None Remove="Areas\PassModel\Data\**" />
+    <None Remove="Areas\PassModel\Models\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\代理业绩表.xlsx" />
+    <Content Remove="wwwroot\提现记录表.xlsx" />
+    <Content Remove="wwwroot\流水表.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DockerfileProduction">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="wwwroot\**\*;Views\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MQKJ.BSMP.QCloud\MQKJ.BSMP.QCloud.csproj" />
+    <ProjectReference Include="..\MQKJ.BSMP.Utils\MQKJ.BSMP.Utils.csproj" />
+    <ProjectReference Include="..\MQKJ.BSMP.Web.Core\MQKJ.BSMP.Web.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Castle.NLog" Version="3.8.1" />
+    <PackageReference Include="Caching.CSRedis" Version="3.0.51" />
+    <PackageReference Include="CSRedisCore" Version="3.0.60" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="AspNet.Security.OpenIdConnect.Server" Version="1.0.2" />
+    <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.1" />
+    <PackageReference Include="Castle.LoggingFacility.MsLogging" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
+    <PackageReference Include="Abp.HangFire" Version="3.7.2" />
+    <PackageReference Include="Abp.RedisCache" Version="3.7.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.ViewCompilation" Version="2.1.0" PrivateAssets="All" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="7.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Logs\2018_08\" />
+    <Folder Include="Areas\Activities\Models\" />
+    <Folder Include="Areas\Adviertisements\Data\" />
+    <Folder Include="Areas\ChineseBabies\Data\" />
+    <Folder Include="Areas\DebugModel\Data\" />
+    <Folder Include="Areas\DebugModel\Models\" />
+    <Folder Include="Areas\QuestionStatistics\Data\" />
+    <Folder Include="Areas\QuestionStatistics\Models\" />
+    <Folder Include="wwwroot\lib\angularjs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="JCSoft.WX.Framework">
+      <HintPath>..\..\libs\JCSoft.WXCore\JCSoft.WX.Framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Areas\GamblingModel\Views\ErrorQuestionStatistics\_List.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Games\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Games\_List.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Tag\_EditTagModal.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="wwwroot\api_certificate\aliPay\2016100100639565\rsa_private_key.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\api_certificate\aliPay\2016100100639565\rsa_public_key.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\api_certificate\aliPay\2019070665745771\rsa_private_key.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\api_certificate\aliPay\2019070665745771\rsa_public_key.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\api_certificate\apiclient_cert.p12">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties bower_1json__JSONSchema="" properties_4launchsettings_1json__JsonSchema="" appsettings_1json__JSONSchema="" appsettings_1testingqa_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+</Project>

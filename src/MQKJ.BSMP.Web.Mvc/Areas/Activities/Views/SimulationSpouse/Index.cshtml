@@ -1,0 +1,83 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP.Common.MqAgents;
+@using MQKJ.BSMP.ChineseBabies
+@*@model MQKJ.BSMP.ChineseBabies.Families.Dtos.GetAllFamilysListDto;*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.CurrentPageName = PageNames.SimulationSpouse; // The menu item will be active for this page.
+}
+
+@section scripts{
+    <script src="~/view-resources/Views/SimulationSpouses/index.js"></script>
+}
+
+<div class="row clearfix" id="loadingModal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    模拟夫妻活动页
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            <label style="margin-left:15px;margin-right:8px;" for="nickName" class="form-label">昵称</label>
+                            <input id="nickName" type="text" name="nickName" style="width:130px" class="form-inline">
+                            <button style="margin-left:20px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="searchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="wechatAccountModal" tabindex="-1" role="dialog" aria-labelledby="wechatAccountModelLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form name="setRatioForm" role="form" novalidate class="form-validation">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="wechatAccount" name="selectType" class="form-control" required onkeyup="">
+                                    <label id="labelTitle" class="form-label">输入用户微信号</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="text" value="" id="user-Id" style="display:none" />
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary waves-effect" id="optionType" value="">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

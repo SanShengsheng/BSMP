@@ -1,0 +1,10 @@
+{
+  "IsPrivate": false,
+  "QcloudAppId": "AKIDQghT3PDlFuKOClHPRRCHemyybBWuiZxF",
+  "QcouldAppSecret": "C8xXcrgMUNDsIT2TfEbu1N0VpwLVJyhC",
+  "CmqConfig": {
+    "Region": "bj"
+  },
+  "MqApiUrl": "http://api.jyqs.xilaikeji.com",
+  "MQ_WechatPay": "mq-wechatpay-dev"
+}

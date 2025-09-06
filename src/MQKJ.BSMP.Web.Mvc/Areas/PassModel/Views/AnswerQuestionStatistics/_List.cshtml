@@ -1,0 +1,33 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model StaticPagedList<MQKJ.BSMP.PassModelStatistics.Dtos.GetLevelDistributionOutput>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>时间</th>
+            <th>做题数量</th>
+            <th>做对数量</th>
+            <th>真实正确率</th>
+            <th>伪正确率</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @{
+                foreach (var item in Model)
+                {
+                <tr>
+                    <td>@item.Floor</td>
+                    <td>@item.FloorCount</td>
+                    <td>@item.AveragePassFailCount</td>
+                    <td>@item.HighestPassFailCount</td>
+                </tr>
+            }
+            }
+            </tr>
+        </tbody>
+    </table>
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+

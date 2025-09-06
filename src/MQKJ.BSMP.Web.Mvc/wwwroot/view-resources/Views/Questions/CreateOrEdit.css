@@ -1,0 +1,176 @@
+﻿.input-select {
+    width: 100% !important;
+    border-bottom: none !important;
+}
+
+.md-green {
+    color: green;
+}
+
+.card-img-top {
+    width: 100%;
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+    height: 140px;
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card-title {
+    margin-bottom: .75rem;
+}
+
+.card .card-body .card-text {
+    color: #747373;
+    font-size: .9rem;
+    font-weight: 400;
+}
+
+.carousel-multi-item .controls-top {
+    text-align: center;
+    margin-bottom: 1.88rem;
+}
+
+.select-label {
+    top: -20px !important;
+    font-size: .8rem;
+}
+
+.visible-hidden {
+    visibility: hidden;
+}
+
+.scene-img {
+    display: none;
+}
+
+.bg-story-female-td {
+    border-bottom: none !important;
+}
+
+.bg-story-male-td {
+    border-top: none !important;
+}
+
+
+/* 话题标签 */
+
+.g-container {
+    width: 100%;
+    height: auto;
+    z-index: 10;
+}
+
+.form-group {
+    width: 100%;
+    height: auto;
+}
+
+.control-label1 {
+    float: left;
+    width: 8%;
+    height: 26px;
+    line-height: 26px;
+}
+
+.Companies {
+    position: relative;
+    width: 100%;
+    height: 26px;
+}
+
+.form-control1 {
+    float: left;
+    width: 35%;
+    height: 26px;
+    /* border-radius: 4px; */
+}
+
+.Companies ul {
+    position: absolute;
+    height: 210px;
+    width: 35%;
+    margin-left: 8%;
+    top: 26px;
+    overflow-y: auto;
+    border: 1px solid #DDD;
+    background: #f7f7f7;
+    display: none;
+    z-index: 1000;
+}
+
+.Companies ul li {
+    padding: 3px 12px;
+    list-style: none;
+}
+
+.Companies ul li a {
+    color: #000;
+}
+
+.Companies ul li a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.Companies ul li:hover {
+    /* background-color:#bebebe; */
+    background: #ddd;
+    cursor: pointer;
+}
+
+.Companies ul li.top {
+    position: absolute;
+    top: 0;
+}
+
+.selectbtn {
+    float: left;
+    margin-left: 1%;
+    background: #337ab7;
+    width: 50px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    border: #337ab7 solid 1px;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.selectbox {
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
+}
+
+.selectbox .boxlist {
+    float: left;
+    margin: 10px 10px 10px 0;
+}
+
+.deletebtn {
+    cursor: pointer;
+}
+
+.deletebtn i {
+    font-size: 15px;
+    color: red;
+}
+
+
+/* 作者 */
+
+.author {
+    float: left;
+    height: 32px;
+    line-height: 32px;
+}
+
+.inp {
+    float: left;
+}

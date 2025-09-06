@@ -1,0 +1,87 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@using X.PagedList
+@using X.PagedList.Mvc.Common
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP.Common.MqAgents.Agents.Dtos
+@model StaticPagedList<AgentFamilyStatisticsOutput>
+
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>代理Id</th>
+            <th>昵称</th>
+            <th>姓名</th>
+            <th>头像</th>
+            <th>手机号</th>
+            <th>新建家庭数量</th>
+            <th>新充值家庭数量</th>
+            <th>老家庭充值数量</th>
+            <th>重复充值家庭数量</th>
+            <th>新家庭流水</th>
+            <th>老家庭流水</th>
+            <th>充值转化率</th>
+            <th>客单价</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AgentId</td>
+                    <td>@item.NickName</td>
+                    <td>@item.UserName</td>
+                    <td><img src="@item.HeadUrl" class="user-header-img" /></td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.NewCreateFamilyCount</td>
+                    <td>@item.NewRechargeFamilyCount</td>
+                    <td>@item.RechargeFamilyCount</td>
+                    <td>@item.RepeatRechargeFamilyCount</td>
+                    <td>@item.NewFamilyWaterRunCount</td>
+                    <td>@item.FamilyWaterRunCount</td>
+                    <td>@item.RechargeInversionRate</td>
+                    <td>@item.PerCustomerTransaction</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@*@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))*@
+
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+    DisplayLinkToNextPage = PagedListDisplayMode.Never,
+    LinkToFirstPageFormat = "首页",
+    LinkToLastPageFormat = "末页",
+    DisplayPageCountAndCurrentLocation = true,
+    PageCountAndCurrentLocationFormat = "每页" + Model.Count + "条共{1}页",
+    //DisplayItemSliceAndTotal = true,
+    //ItemSliceAndTotalFormat = "每页{1}条"
+})
+
+
+<style type="text/css">
+    .PagedList-pageCountAndLocation {
+        position: absolute;
+        right: 20px;
+        /*color:red !important;*/
+    }
+
+    .sort_type {
+        cursor: pointer;
+    }
+</style>
+
+

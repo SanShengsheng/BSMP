@@ -1,0 +1,104 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.Common.MqAgents;
+@using MQKJ.BSMP.EnumHelper;
+@using MQKJ.BSMP.ChineseBabies.Dtos;
+@using MQKJ.BSMP.Common;
+@using MQKJ.BSMP.MqAgents.Dtos;
+@using MQKJ.BSMP.Common.Authorization.Users.Authorization;
+@model MQKJ.BSMP.Web.Areas.ChineseBabies.Models.RunWaterRecordModel;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.CurrentPageName = PageNames.RunWaterRecord; // The menu item will be active for this page.
+}
+
+@section scripts{
+    <script src="~/view-resources/Views/RunWaterRecords/index.js"></script>
+    <script src="~/lib/laydate/laydate.js"></script>
+}
+
+<div class="row clearfix" id="loadingModal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    流水管理
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                            <li><a id="ExportToExcel" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>导出到Excel</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            @*<label style="margin-left:15px;margin-right:8px;" for="username" class="form-label">收益人</label>
+        <input id="userName" type="text" name="userName" style="width:130px" class="form-inline">*@
+                            <label style="margin:0px 15px 0px 15px;" for="starttime" class="form-label">从</label>
+                            <input id="startTime" type="text" value="" name="starttime" readonly="readonly" class="form-inline">
+                            <label style="margin:0px 8px 0px 8px;" class="form-label">至</label>
+                            <input id="endTime" type="text" value="" name="endtime" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">订单号</label>
+                            <input id="OrderNo" type="text" value="" name="OrderNo" class="form-inline" style="width:180px">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">充值人</label>
+                            <input id="rechargerName" type="text" value="" name="rechargerName" class="form-inline" style="width:120px;">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">业务人</label>
+                            <input id="businesserName" type="text" value="" name="businesserName" class="form-inline" style="width:120px;">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">收益人</label>
+                            <input id="profiterName" type="text" value="" name="profiterName" class="form-inline" style="width:120px;">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">金额</label>
+                            <select id="moneyCount" class="col-sm-1" style="width:120px;">
+                                <option value="0">不限</option>
+                                @{
+                                    foreach (var item in Model.CoinRechargeListDtos)
+                                    {
+                                        <option style="width:120px;" value="@item.MoneyAmount">@item.MoneyAmount</option>
+                                    }
+                                }
+                            </select>
+                            @if (IsGranted(UserPermissions.QuerySubsidy))
+                            {
+                                <select id="runWaterType" class="col-sm-1" style="width:120px;">
+                                    <option value="0">充值</option>
+                                    <option style="width:120px;" value="1">补贴</option>
+                                    <option style="width:120px;" value="2">不限</option>
+                                </select>
+                            }
+
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">所属公司</label>
+                            <input id="company" type="text" value="" name="company" class="form-inline" style="width:120px;">
+
+                            <button style="margin-left:20px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="searchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agentCreateModal" tabindex="-1" role="dialog" aria-labelledby="agentCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>

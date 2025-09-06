@@ -1,0 +1,85 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+@using MQKJ.BSMP.Web.Startup
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    @*<link href="~/lib/laydate/theme/default/laydate.css" asp-append-version="true" />*@
+}
+@section scripts
+    {
+    <script src="~/view-resources/Views/DebugModel/index.js"></script>
+}
+@{
+    ViewBag.CurrentPageName = PageNames.DebugModel; // The menu item will be active for this page.
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    修改关卡
+                </h2>
+            </div>
+            <div id="searchform" class="row">
+                <form class="">
+                    <div class="col-sm-11" style="margin-top:20px;">
+                        <div class="form-group">
+                            <label style="margin-left:15px;margin-right:8px;" for="username" class="form-label">邀请方昵称</label>
+                            <input id="inviterName" type="text" name="inviterName" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="username" class="form-label">被邀请方昵称</label>
+                            <input id="inviteeName" type="text" name="inviteeName" class="form-inline">
+                        </div>
+                    </div>
+                    <button style="position:absolute;right:53%;top:70px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="SearchBtn">
+                        <i class="material-icons">search</i>
+                    </button>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))*@
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>邀请方昵称</th>
+                            <th>被邀请方昵称</th>
+                            <th>当前关卡</th>
+                            <th>修改关卡</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_data"></tbody>
+                </table>
+                @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="floorEditModal" tabindex="-1" role="dialog" aria-labelledby="floorEditModal" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form name="sceneImageUploadForm" enctype="multipart/form-data" role="form" novalidate class="form-validation">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <input id="floorInput" type="number" value="" size="2" class="form-control" style="border:1px solid #c7c3c5">
+                                <span class="input-group-btn">
+                                    <button id="modifyFloorBtn" class="btn btn-default" type="button" style="background-color:cornflowerblue;margin-left:1px;">
+                                        Go!
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

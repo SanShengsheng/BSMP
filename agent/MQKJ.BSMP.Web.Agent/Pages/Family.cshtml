@@ -1,0 +1,163 @@
+﻿@page
+@model MQKJ.BSMP.Web.Agent.Pages.FamilyModel
+@{
+    ViewData["Title"] = "我的所有家庭";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script src="~/js/family.js?v=@StaticConfig.SystemVersion"></script>
+}
+
+@section Nav {
+    <van-row>
+        <van-nav-bar title="@ViewData["Title"]"
+                     left-text=""
+                     right-text=""
+                     fixed />
+    </van-row>
+}
+    <van-dialog v-model="dialog.show"
+                @@cancel="dialogCancel"
+                @@confirm="savenote"
+                show-cancel-button>
+        <van-field v-model="dialog.note"
+                   label="备注"
+                   placeholder="请输入备注" />
+
+    </van-dialog>
+<van-row gutter="20">
+    <van-col :span="8">
+        <el-select v-model="search.ageIndex"
+                   size="small"
+                   
+                   @@change="searchEvent"
+                   placeholder="岁数">
+            <el-option v-for="(item, index) in ages"
+                       :key="item.id"
+                       :label="item.value"
+                       :value="index">
+            </el-option>
+        </el-select>
+    </van-col>
+    <van-col :span="8">
+        <el-select v-model="search.moneyIndex"
+                   size="small"
+                    @@change="searchEvent"
+                   placeholder="金币">
+            <el-option v-for="(item, index) in moneys"
+                       :key="item.id"
+                       :label="item.text"
+                       :value="index">
+            </el-option>
+        </el-select>
+    </van-col>
+    <van-col :span="8">
+        <el-select v-model="search.statusIndex"
+                   size="small"
+                    @@change="searchEvent"
+                   placeholder="状态">
+            <el-option v-for="(item, index) in status"
+                       :key="item.id"
+                       :label="item.text"
+                       :value="index">
+            </el-option>
+        </el-select>
+    </van-col>
+
+</van-row>
+<van-row style="margin-top:1rem;" gutter="20">
+    <van-col :span="18">
+        <el-input v-model="search.nickname"
+                  size="small"
+                  placeholder="请搜索昵称">
+
+        </el-input>
+
+    </van-col>
+    <van-col :span="6">
+        <el-button type="primary"
+                   size="small"
+                   v-on:click="searchEvent">搜索</el-button>
+    </van-col>
+</van-row>
+<van-row style="margin-top:1rem;">
+    <van-pull-refresh v-model="isLoading" @@refresh="onRefresh">
+        <van-list v-model="listLoading"
+                  @@load="onLoad"
+                  :finished="finished"
+                  finished-text="没有更多了">
+            <van-row v-for="(item, index) in items"
+                     :key="item.id">
+                <van-panel class="ui-family-panel">
+                    <div slot="header">
+                        <van-row type="flex"
+                                 justify="space-around">
+                            <van-col :span="8" class="ui-name">
+                                <span class="ui-header">
+                                    <img :src="item.otherHeader" />
+                                </span>
+                                <span >
+                                    {{item.otherName}}
+                                </span>
+                            </van-col>
+                          
+                            <van-col :span="6">
+                                <span class="ui-addon-status"
+                                      v-bind:class="{'on': item.addOnStatus === 1, 'stop' : item.addOnStatus === 0}"
+                                      >
+                                    {{item.status}}
+                                </span>
+                            </van-col>
+                            <van-col :span="6">
+                                <span v-if="item.note != null && item.note != ''" class="ui-note">
+                                    {{item.note}}
+                                </span>
+                                <span v-if="item.note == null || item.note == ''"  class="ui-note">
+                                    <van-button round type="danger" size="small" @@click="showNoteDialog(item.id)">添加备注</van-button>
+                                </span>
+                            </van-col>
+                        </van-row>
+                    </div>
+                    <div>
+                        <van-row class="ui-family-content">
+                            <van-col v-if="item.babyAge != null" :span="12">
+                                当前宝宝：{{item.babyName}}
+                            </van-col>
+                            <van-col v-if="item.babyAge != null" :span="12">
+                                宝宝年龄：{{item.babyAge}}
+                            </van-col>
+                            <van-col :span="12">
+                                实际充值金额：{{item.realAmount}}
+                            </van-col>
+                            <van-col :span="12">
+                                虚拟充值金额：{{item.virtualAmount}}
+                            </van-col>
+                            <van-col :span="12">
+                                家庭剩余金额：{{item.Deposit}}
+                            </van-col>
+                            <van-col :span="12">
+                                当前家庭档位：{{item.level}}
+                            </van-col>
+                        </van-row>
+                    </div>
+                    <div slot="footer" class="ui-family-footer">
+                        <van-row>
+                            <van-button size="small" @@click="showBuyMoney(item.id)">购买金币</van-button>
+                            <van-button size="small">详细设置</van-button>
+                            <van-button size="small">家庭事件</van-button>
+                        </van-row>
+                        <van-row style="margin-top:1rem;">
+                            <van-button size="small" type="danger" @@click="stopAuto(item.id)" v-if="item.addOnStatus === 1">暂停外挂</van-button>
+                            <van-button size="small" type="primary" @@click="startAuto(item.id)" v-if="item.addOnStatus === 0 || item.addOnStatus=== 99">开启外挂</van-button>
+                            <van-button size="small" type="warning" @@click="hideAuto(item.id)" v-if="item.addOnStatus === 0 ">隐藏家庭</van-button>
+                        </van-row>
+                        
+                    </div>
+                </van-panel>
+            </van-row>
+
+        </van-list>
+    </van-pull-refresh>
+</van-row>
+@Html.Partial("_BuyMoneyPartial")

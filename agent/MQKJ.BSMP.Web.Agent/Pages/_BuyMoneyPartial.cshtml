@@ -1,0 +1,21 @@
+﻿<van-popup v-model="pop.show" 
+           position="bottom" 
+           :overlay="true">
+    <van-row>
+        <van-nav-bar title="购买金币"
+                     left-text="返回"
+                     left-arrow
+                     @@click-left="hideBuyMoney"
+                     right-text="" />
+    </van-row>
+   
+    
+    <van-row v-for="(money, index) in pop.moneys">
+        
+        <van-col :span="6"></van-col>
+        <van-col :span="6">{{money.coinCount}}</van-col>
+        <van-col :span="6">
+            <van-button type="primary" size="small" >{{money.moneyAmount}}元</van-button>
+        </van-col>
+    </van-row>
+</van-popup>

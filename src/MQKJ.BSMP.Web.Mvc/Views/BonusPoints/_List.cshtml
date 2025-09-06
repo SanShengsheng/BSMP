@@ -1,0 +1,55 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.BonusPoints
+@using MQKJ.BSMP.BonusPoints.Dtos
+@using MQKJ.BSMP.BonusPointRecords.Dtos
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@model StaticPagedList<BonusPointRecordListDto>
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+    var events = (List<BonusPointListDto>)ViewBag.Events;
+    var nicName = ViewBag.NickName;
+    var startTime = ViewBag.StartTime;
+    var endTime = ViewBag.EndTime;
+    var eventId = ViewBag.EventId;
+}
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }))
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户</th>
+            <th>时间</th>
+            <th>事件</th>
+            <th>获取爱豆(积分)</th>
+            <th>扣除爱豆(积分)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bonuspoint in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(bonuspoint) + 1 + snStart)</td>
+                <td>@bonuspoint.Player.NickName</td>
+                <td>@bonuspoint.CreationTime</td>
+                <td>@bonuspoint.BonusPoint.EventName</td>
+                @{
+                    if (bonuspoint.GatherCount >= 0)
+                    {
+                        <td style="color:#008000">+@bonuspoint.GatherCount</td>
+                        <td style="color:#FF0000"></td>
+                    }
+                    else
+                    {
+                        <td style="color:#008000"></td>
+                        <td style="color:#FF0000">@bonuspoint.GatherCount</td>
+
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }))

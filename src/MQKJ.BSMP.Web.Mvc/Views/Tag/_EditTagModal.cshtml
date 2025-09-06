@@ -1,0 +1,52 @@
+﻿@using MQKJ.BSMP.Web.Models.Common.Modals
+@using MQKJ.BSMP
+@model MQKJ.BSMP.Web.Models.Tags.TagEditViewModel
+
+@{
+    Layout = null;
+}
+@Html.Partial("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditTitle").FormatString(L("Tags"))))
+<div class="modal-body">
+    <form name="tagEditForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.TagEditDto.Id" />
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="tagName1" type="text" name="TagName" value="@Model.TagEditDto.TagName" required class="validate form-control">
+                        <label for="tagName1" class="form-label">@L("TagName")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="sort1" type="number" name="Sort" value="@Model.TagEditDto.Sort" required class="validate form-control">
+                        <label for="sort1" class="form-label">@L("Sort")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-group">
+                        @Html.Label(L("TagType"))
+                        @Html.DropDownList(
+                            "TagTypeId",
+                            Model.TagTypes,
+                            new
+                            {
+                                @class = "form-control",
+                                id = "tagTypeCombobox"
+                            })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+<script src="~/view-resources/Views/Tags/_EditTag.js" asp-append-version="true"></script>

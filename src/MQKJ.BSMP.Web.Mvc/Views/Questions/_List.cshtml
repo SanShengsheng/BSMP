@@ -1,0 +1,135 @@
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.Questions
+@using MQKJ.BSMP.Questions.Authorization
+@using MQKJ.BSMP.Questions.Dtos
+@using MQKJ.BSMP.SceneFiles.Dto
+@using MQKJ.BSMP.Scenes.Dto
+@using MQKJ.BSMP.TagTypes.Dtos
+@using MQKJ.BSMP.Web.Models.Common.Modals
+@using MQKJ.BSMP.Web.Startup
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP;
+@using X.PagedList.Mvc.Common;
+
+@model StaticPagedList<QuestionListDto>
+@{
+    ViewBag.CurrentPageName = PageNames.Questions; // The menu item will be active for this page.
+    var scenes = (List<GetScenesListDto>)ViewBag.Scenes;
+    var imgs = (List<GetSceneFileOutput>)ViewBag.SceneFiles;
+    var tagTypes = (IEnumerable<TagTypeListDto>)ViewBag.TagType;
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { DisplayLinkToNextPage = PagedListDisplayMode.Never, DisplayLinkToPreviousPage = PagedListDisplayMode.Never, LinkToFirstPageFormat = "1", LinkToPreviousPageFormat = "上一页", LinkToLastPageFormat = Model.PageCount.ToString() })
+<table class="table">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>场景</th>
+            <th style="width:20%">背景故事</th>
+            <th style="width:30%">选项</th>
+            <th>男/女版</th>
+            <th>关系维度</th>
+            <th>私密度</th>
+            <th>适用年龄</th>
+            <th>话题</th>
+            <th>状态</th>
+            <th>审核人</th>
+            <th>创建人</th>
+            <th style="width:5%">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var question in Model)
+        {
+            var questionTags = question.QuestionTags.ToList();
+            var isPass = question.State == QuestionState.Confrimed;
+            var answersFemale = question.Answers.Where(a => a.QuestionType == QuestionGender.F).ToList();
+            var answersMale = question.Answers.Where(a => a.QuestionType == QuestionGender.M).ToList();
+            <tr>
+                <td rowspan="2">@(Model.IndexOf(question) + 1 + snStart)</td>
+                <td rowspan="2">@question.Scene.SceneName</td>
+                <td class="bg-story-female-td">
+                    @("（女）" + question.BackgroundStoryFemale.Html2Text())
+                </td>
+                <td class="bg-story-female-td">
+                    @foreach (var answer in answersFemale)
+                    {
+                        <span>选项 @Enum.GetName(typeof(AnswerSort), answersFemale.IndexOf(answer))： @answer.Title</span><br />
+                    }
+                </td>
+                <td rowspan="2">
+                    @(EnumHelper.GetDescription(question.Pursuer))
+                </td>
+                <td rowspan="2">
+                    @foreach (var relationType in questionTags.Where(t => t.Tag.TagType.TypeName == "关系维度"))
+                    {
+                        <span>@relationType.Tag.TagName</span><br />
+                    }
+                </td>
+                <td rowspan="2">
+                    @foreach (var relationType in questionTags.Where(t => t.Tag.TagType.TypeName == "私密度"))
+                    {
+                        <span>@relationType.Tag.TagName</span><br />
+                    }
+                </td>
+                <td rowspan="2">
+                    @foreach (var relationType in questionTags.Where(t => t.Tag.TagType.TypeName == "适用年龄"))
+                    {
+                        <span>@relationType.Tag.TagName</span><br />
+                    }
+                </td>
+                <td rowspan="2">
+                    @foreach (var relationType in questionTags.Where(t => t.Tag.TagType.Code == "TopicTag"))
+                    {
+                        <span>@relationType.Tag.TagName</span><br />
+                    }
+                </td>
+                <td rowspan="2"><p>@(EnumHelper.GetDescription(question.State))</p></td>
+                <td rowspan="2">@(question.State == QuestionState.Confrimed && question.Auditor != null ? question.Auditor.FullName : "")</td>
+                <td rowspan="2">@(question.Creator == null ? "-" : question.Creator.FullName)</td>
+                <td class="dropdown" rowspan="2">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li class="@(isPass?"disabled":"")"><a href="#" class="waves-effect waves-block edit-question " data-question-id="@question.Id" data-toggle="modal" data-target="#QuestionEditModal"><i class="material-icons">edit</i>编辑</a></li>
+                        @if (!isPass && IsGranted(QuestionAppPermissions.Question_AuditQuestion))
+                        {
+                            <li><a href="#" class="waves-effect waves-block pass-question" data-question-id="@question.Id" data-question-name="@(question.BackgroundStoryMale)"><i class="material-icons">done</i>审核通过</a></li>
+                        }
+                        @if (IsGranted(QuestionAppPermissions.Question_AuditQuestion))
+                        {
+                            if (question.State == QuestionState.Online)
+                            {
+                                <li><a href="#" class="waves-effect waves-block freeze-question" data-question-id="@question.Id" data-question-name="@(question.BackgroundStoryMale)"><i class="material-icons">visibility_off</i>下线</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="#" class="waves-effect waves-block online-question" data-question-id="@question.Id" data-question-name="@(question.BackgroundStoryMale)"><i class="material-icons">visibility</i>上线</a></li>
+                            }
+                        }
+                        <li><a href="#" class="waves-effect waves-block delete-question" data-question-id="@question.Id"><i class="material-icons">delete_sweep</i>删除</a></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td class="bg-story-male-td">
+                    @("（男）" + question.BackgroundStoryMale.Html2Text())
+                </td>
+                <td class="bg-story-male-td">
+                    @foreach (var answer in answersMale)
+                    {
+                        <span>选项  @Enum.GetName(typeof(AnswerSort), answersMale.IndexOf(answer))： @answer.Title</span><br />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { DisplayLinkToNextPage = PagedListDisplayMode.Never, DisplayLinkToPreviousPage = PagedListDisplayMode.Never, LinkToFirstPageFormat = "1", LinkToPreviousPageFormat = "上一页", LinkToLastPageFormat = Model.PageCount.ToString() })
+<button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right" data-toggle="modal" data-target="#QuestionCreateModal">
+    <i class="material-icons">add</i>
+</button>

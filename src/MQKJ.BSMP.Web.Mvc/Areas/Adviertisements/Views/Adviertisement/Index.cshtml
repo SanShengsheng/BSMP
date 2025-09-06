@@ -1,0 +1,390 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP.Common.AD;
+@model MQKJ.BSMP.Web.Areas.Adviertisements.Models.AdviertisementModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.CurrentPageName = PageNames.AD; // The menu item will be active for this page.
+}
+
+@section scripts{
+    <script src="~/view-resources/Views/AD/Index.js"></script>
+    <script src="~/lib/laydate/laydate.js"></script>
+}
+
+<div class="row clearfix" id="loadingModal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    广告位管理
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li class="RefreshButton"><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            <label style="margin-left:15px;margin-right:8px;" for="adName" class="form-label">广告位名称</label>
+                            <input id="adName" type="text" name="adName" style="width:130px" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="adState" class="form-label">广告位状态</label>
+                            <select id="adState" name="adState" class="col-sm-2">
+                                <option value="0">不限</option>
+                                <option value="@AdviertisementState.Normal.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Normal)</option>
+                                <option value="@AdviertisementState.Close.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Close)</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="adPlatform" class="form-label">广告平台</label>
+                            <select id="adPlatform" name="adPlatform" class="col-sm-2">
+                                <option value="0">不限</option>
+                                <option value="@AdviertisementPlatform.WeChat.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.WeChat)</option>
+                                <option value="@AdviertisementPlatform.XiaoMeng.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.XiaoMeng)</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="softwarePlatform" class="form-label">应用平台</label>
+                            <select id="softwarePlatform" name="softwarePlatform" class="col-sm-2">
+                                <option value="0">所有</option>
+                                @foreach (var item in Model.Tenants)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                            <button style="margin-left:20px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="searchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                            <button style="margin-left:60px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float customsize" data-toggle="modal" data-target="#AddADModal">
+                                <i class="material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="AddADModal" style="margin-top:10%;" tabindex="-1" role="dialog" aria-labelledby="AddADModalModalLabel" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>添加广告位</span>
+                </h4>
+            </div>
+            <form id="add_ad_form" name="userCreateForm" role="form" novalidate class="form-validation">
+                <div class="modal-body">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-user-details">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_ADName">广告位名称</label>
+                                            <input type="text" id="add_ADName" name="Name" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_APPID">小程序APPID</label>
+                                            <input type="text" id="add_APPID" name="AppId" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_bannerImage">Banner图</label>
+                                            <input type="text" id="add_bannerImage" name="BannerImagePath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_insertImage">插图</label>
+                                            <input type="text" id="add_insertImage" name="FixedImagePath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_fixedImage">悬浮图</label>
+                                            <input type="text" id="add_fixedImage" name="InsertImagePath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_WordLink">文字链</label>
+                                            <input type="text" id="add_WordLink" name="WordLink" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="MinPorgramLogo">小程序logo</label>
+                                            <input type="text" id="MinPorgramLogo" name="MinPorgramLogo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_MinPorgramQR">小程序码</label>
+                                            <input type="text" id="add_MinPorgramQR" name="MinPorgramQRPath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_ExpandPath">路径</label>
+                                            <input type="text" id="add_ExpandPath" name="ExpandPath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_Publink">公众号链接</label>
+                                            <input type="text" id="add_Publink" name="PubLink" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_AdState">广告位状态</label>
+                                            <select id="add_AdState" name="AdviertisementState" class="form-control">
+                                                <option value="@AdviertisementState.Normal.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Normal)</option>
+                                                <option value="@AdviertisementState.Close.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Close)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_adPlatform">广告位所属平台</label>
+                                            <select id="add_adPlatform" name="AdviertisementPlatform" class="form-control">
+                                                <option value="@AdviertisementPlatform.WeChat.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.WeChat)</option>
+                                                <option value="@AdviertisementPlatform.XiaoMeng.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.XiaoMeng)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_adApplication">广告位所属应用</label>
+                                            <select id="add_adApplication" name="TenantId" class="form-control">
+                                                @foreach (var item in Model.Tenants)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_EndTime">结束时间</label>
+                                            <input type="text" id="endTime" name="endTime" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                    <button type="button" id="saveBtn" class="btn btn-primary waves-effect" value="">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="AdEditModal" tabindex="-1" role="dialog" aria-labelledby="AdEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<div class="modal fade" id="AddADModal" style="margin-top:10%;" tabindex="-1" role="dialog" aria-labelledby="AddADModalModalLabel" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>编辑广告位</span>
+                </h4>
+            </div>
+            <form id="add_ad_form" name="userCreateForm" role="form" novalidate class="form-validation">
+                <div class="modal-body">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-user-details">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_ADName">广告位名称</label>
+                                            <input type="text" id="add_ADName" name="Name" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_bannerImage">Banner图</label>
+                                            <input type="text" id="add_bannerImage" name="BannerImagePath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_fixedImage">悬浮图</label>
+                                            <input type="text" id="add_fixedImage" name="InsertImagePath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_insertImage">插图</label>
+                                            <input type="text" id="add_insertImage" name="FixedImagePath" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_WordLink">插图</label>
+                                            <input type="text" id="add_WordLink" name="WordLink" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="MinPorgramLogo">应用logo</label>
+                                            <input type="text" id="MinPorgramLogo" name="MinPorgramLogo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_AdState">广告位状态</label>
+                                            <select id="add_AdState" name="AdviertisementState" class="form-control">
+                                                <option value="@AdviertisementState.Normal.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Normal)</option>
+                                                <option value="@AdviertisementState.Close.GetHashCode()">@EnumHelper.GetDescription(AdviertisementState.Close)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_adPlatform">广告位所属平台</label>
+                                            <select id="add_adPlatform" name="AdviertisementPlatform" class="form-control">
+                                                <option value="@AdviertisementPlatform.WeChat.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.WeChat)</option>
+                                                <option value="@AdviertisementPlatform.XiaoMeng.GetHashCode()">@EnumHelper.GetDescription(AdviertisementPlatform.XiaoMeng)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <label for="add_adApplication">广告位所属应用</label>
+                                            <select id="add_adApplication" name="TenantId" class="form-control">
+                                                @foreach (var item in Model.Tenants)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                    <button type="button" id="saveBtn" class="btn btn-primary waves-effect" value="">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>*@
+

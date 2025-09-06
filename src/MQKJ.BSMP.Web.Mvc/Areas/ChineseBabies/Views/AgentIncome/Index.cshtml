@@ -1,0 +1,111 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.Common;
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP.Common.MqAgents;
+@using MQKJ.BSMP.Common.MqAgents.Agents.Dtos
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.CurrentPageName = PageNames.AgentIncome; // The menu item will be active for this page.
+}
+
+@section scripts{
+    <script src="~/view-resources/Views/AgentIncomes/Index.js"></script>
+    <script src="~/lib/laydate/laydate.js"></script>
+}
+
+<div class="row clearfix" id="loadingModal">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    代理业绩
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                            <li><a id="ExportToExcel" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">edit</i>导出到Excel</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            <label style="margin-left:15px;margin-right:8px;" for="nickName" class="form-label">代理</label>
+                            <input id="nickName" type="text" name="nickName" style="width:130px" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="nickName" class="form-label">上级代理</label>
+                            <input id="upAgentName" type="text" name="upAgentName" style="width:130px" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="nickName" class="form-label">手机号</label>
+                            <input id="phoneNumber" type="text" name="phoneNumber" style="width:120px" class="form-inline">
+                            @*<label style="margin-left:15px;margin-right:8px;" for="nickName" class="form-label">上级代理昵称</label>
+        <input id="upAgentName" type="text" name="upAgentName" style="width:130px" class="form-inline">*@
+                            <label style="margin:0px 15px 0px 15px;" for="starttime" class="form-label">从</label>
+                            <input id="startTime" type="text" value="" name="starttime" readonly="readonly" style="width:120px" class="form-inline">
+                            <label style="margin:0px 8px 0px 8px;" class="form-label">至</label>
+                            <input id="endTime" type="text" value="" name="endtime" readonly="readonly" style="width:120px" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">排序</label>
+                            <select id="sorting" name="sorting" class="col-sm-2">
+                                <option value="@EnumHelper.GetDescription(AgentDataOrder.TotalRunWaterCount)">默认</option>
+                                <option value="@EnumHelper.GetDescription(AgentDataOrder.TotalOrderCount)">按订单数</option>
+                                <option value="@EnumHelper.GetDescription(AgentDataOrder.TotalRunWaterCount)">按总流水</option>
+                                <option value="@EnumHelper.GetDescription(AgentDataOrder.TotalIncomeCount)">按总收益</option>
+                                <option value="@EnumHelper.GetDescription(AgentDataOrder.WithDrawedMoney)">按已提现收益</option>
+                                <option value="@EnumHelper.GetDescription(AgentDataOrder.CanWithDrawedMoney)">按可提现收益</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">升降序</label>
+                            <select id="SortingType" name="agentState" class="col-sm-2">
+                                <option value="@EnumHelper.GetDescription(OrderType.DescendingOrder)">降序</option>
+                                <option value="@EnumHelper.GetDescription(OrderType.AscendingOrder)">升序</option>
+                            </select>
+
+                            <label style="margin-left:15px;margin-right:8px;" for="company" class="form-label">所属公司</label>
+                            <input id="company" type="text" name="company" style="width:130px" class="form-inline">
+
+                            <button style="margin-left:20px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="searchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AgentIncomeModal" tabindex="-1" role="dialog" aria-labelledby="AgentIncomeModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form name="setRatioForm" role="form" novalidate class="form-validation">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="text" value="" id="agentType" style="display:none" />
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary waves-effect" value="" id="setagentRatio">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

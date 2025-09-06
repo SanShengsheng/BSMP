@@ -1,0 +1,95 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "代理注册";
+}
+
+
+
+@section Scripts {
+<script src="~/js/index.js?v=@StaticConfig.SystemVersion"></script>
+}
+@section Nav {
+<van-row>
+    <van-nav-bar  title="@ViewData["Title"]"
+                 left-text=""
+                 right-text=""
+                 :fixed="true"
+                  />
+</van-row>
+}
+
+<van-row v-if="stat === 0">
+    <van-cell-group>
+        <van-field v-model="agent.phoneNumber"
+                   type="tel"
+                   clearable
+                   required
+                   label="手机号"
+                   placeholder="请输入手机号" />
+
+
+    </van-cell-group>
+    <van-cell-group>
+        <van-field v-model="agent.code"
+                   center
+                   required
+                   clearable
+                   label="短信验证码"
+                   placeholder="请输入短信验证码">
+            <van-button slot="button"
+                        :disabled="phonebtn.isdisabled"
+                        size="small"
+                        v-on:click='sendcode'
+                        :text='phonebtn.text'
+                        type="primary">
+            </van-button>
+        </van-field>
+    </van-cell-group>
+    <van-cell-group>
+        <van-field v-model="agent.password"
+                   type="password"
+                   required
+                   clearable
+                   label="登录密码"
+                   placeholder="请设置登录密码" />
+    </van-cell-group>
+    <van-cell-group>
+        <van-cell-group>
+            <van-field v-model="agent.username"
+                       required
+                       clearable
+                       label="真实姓名"
+                       placeholder="真实姓名用于审核和提现" />
+        </van-cell-group>
+        <van-cell-group>
+            <van-field v-model="agent.idCardNumber"
+                       required
+                       clearable
+                       label="身份证"
+                       placeholder="身份证号码用于审核和提现" />
+        </van-cell-group>
+        <van-cell-group>
+            <van-field v-model="agent.inviteCode"
+                       required
+                       clearable
+                       label="邀请码"
+                       placeholder="请输入您的邀请码" />
+        </van-cell-group>
+        <van-cell-group>
+            <van-cell>
+                <van-checkbox v-model="checked">我同意默奇网络服务协议</van-checkbox>
+            </van-cell>
+        </van-cell-group>
+        <van-cell-group style="margin-top:5rem;">
+            <van-button size="large" 
+                        :disabled="!checked"
+                        :loading="load"
+                        v-on:click="register"
+                        type="primary">开始注册</van-button>
+        </van-cell-group>
+
+</van-row>
+<van-row  v-if="stat === 1">
+    管理员正在审核中，请耐心等待
+</van-row>

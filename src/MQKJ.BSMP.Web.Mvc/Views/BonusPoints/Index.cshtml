@@ -1,0 +1,87 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.BonusPoints
+@using MQKJ.BSMP.BonusPoints.Dtos
+@using MQKJ.BSMP.BonusPointRecords.Dtos
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@model StaticPagedList<BonusPointRecordListDto>
+@{
+    ViewBag.CurrentPageName = PageNames.BonusPoints; // The menu item will be active for this page.
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+    var events = (List<BonusPointListDto>)ViewBag.Events;
+}
+@section styles{
+    <link href="~/view-resources/Views/BonusPoints/Index.css" asp-append-version="true" />
+    <link href="~/lib/laydate/theme/default/laydate.css" asp-append-version="true" />
+}
+@section scripts
+    {
+    <environment names="Development,TestingQA">
+        <script src="~/view-resources/Views/BonusPoints/Index.js" asp-append-version="true"></script>
+        <script src="~/lib/laydate/laydate.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/BonusPoints/Index.js" asp-append-version="true"></script>
+        <script src="~/lib/laydate/laydate.js" asp-append-version="true"></script>
+    </environment>
+}
+@{ 
+//var nicName = ViewBag.NickName;
+//var startTime = Convert.ToDateTime(ViewBag.StartTime);
+//var endTime = ViewBag.EndTime;
+//var eventId = ViewBag.EventId ?? 0;
+}
+<div class="row clearfix">
+    <a class="jumpsetpage" style="float:right;margin:0px 15px 15px 0px;font-size:15px;color:black" href="Bonuspoints/BonusPointsPage">积分设置</a>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @L("BonusPoints")
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>@L("Refresh")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            <label style="margin:10px 8px 0px 15px;" for="nickName" class="form-label">用户</label>
+                            <input id="nickName" type="text" name="nickName" value="" class="form-inline">
+
+                            <label style="margin:0px 15px 0px 15px;" for="starttime" class="form-label">时间</label>
+                            <input id="starttime" type="text" value="" name="starttime" readonly="readonly" class="form-inline">
+                            <label style="margin:0px 8px 0px 8px;" class="form-label">至</label>
+                            <input id="endtime" type="text" value="" name="endtime" readonly="readonly" class="form-inline">
+
+                            <label style="margin:0px 8px 0px 15px;" class="form-label">事件</label>
+                            <select id="bonuspointsevent">
+                                <option value="">所有</option>
+                                @foreach (var item in events)
+                                {
+                                    <option value="@item.Id">@item.EventName</option>
+                                }
+                            </select>
+
+                            <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="SearchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="BonusPointsRecordList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>

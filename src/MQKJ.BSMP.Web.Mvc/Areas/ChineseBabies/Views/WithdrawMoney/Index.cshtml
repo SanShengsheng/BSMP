@@ -1,0 +1,94 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.Common.MqAgents;
+@using MQKJ.BSMP.Common;
+@using MQKJ.BSMP.EnumHelper;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    ViewBag.CurrentPageName = PageNames.AgentManage; // The menu item will be active for this page.
+                                                     //if (ViewBag.jqueryUnobtrusive == true)
+                                                     //{
+                                                     //    //Layout = null;
+                                                     //}
+}
+
+@section scripts{
+    <script src="~/view-resources/Views/WithdrawMoney/index.js"></script>
+    <script src="~/lib/laydate/laydate.js"></script>
+    @*<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>*@
+}
+
+<div class="row clearfix" id="modalloading">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    提现管理
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                            <li><a id="ExportToExcel" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">edit</i>导出到Excel</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="row clearfix" id="searchform">
+                <form role="form" novalidate class="form-validation">
+                    <div class="col-sm-11">
+                        <div class="form-group user-style">
+                            <label style="margin-left:15px;margin-right:8px;" for="username" class="form-label">用户昵称</label>
+                            <input id="userName" type="text" name="userName" style="width:130px" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="username" class="form-label">订单号</label>
+                            <input id="orderNumber" type="text" name="orderNumber" placeholder="商户或微信订单号" style="width:150px" class="form-inline">
+                            <label style="margin:0px 15px 0px 15px;" for="starttime" class="form-label">从</label>
+                            <input id="startTime" type="text" value="" name="starttime" readonly="readonly" class="form-inline">
+                            <label style="margin:0px 8px 0px 8px;" class="form-label">至</label>
+                            <input id="endTime" type="text" value="" name="endtime" readonly="readonly" class="form-inline">
+
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">状态</label>
+                            <select id="withDrawMoneyState" class="col-sm-2">
+                                <option value="-1">不限</option>
+                                <option value="@WithdrawDepositState.Auditing.GetHashCode()">@EnumHelper.GetDescription(WithdrawDepositState.Auditing)</option>
+                                <option value="@WithdrawDepositState.Fail.GetHashCode()">@EnumHelper.GetDescription(WithdrawDepositState.Fail)</option>
+                                <option value="@WithdrawDepositState.Success.GetHashCode()">@EnumHelper.GetDescription(WithdrawDepositState.Success)</option>
+                                <option value="@WithdrawDepositState.Refuse.GetHashCode()">@EnumHelper.GetDescription(WithdrawDepositState.Refuse)</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">提现方式</label>
+                            <select id="withdrawMoneyType" class="col-sm-2">
+                                <option value="0">不限</option>
+                                <option value="@WithdrawMoneyType.WeChatEnterPayType.GetHashCode()">@EnumHelper.GetDescription(WithdrawMoneyType.WeChatEnterPayType)</option>
+                                <option value="@WithdrawMoneyType.ManualWithDrawType.GetHashCode()">@EnumHelper.GetDescription(WithdrawMoneyType.ManualWithDrawType)</option>
+                            </select>
+
+                            <button style="margin-left:20px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="searchBtn">
+                                <i class="material-icons">search</i>
+                            </button>
+                            @*<button style="margin-left:60px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float customsize" data-toggle="modal" data-target="#agentCreateModal">
+            <i class="material-icons">add</i>
+        </button>*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="dataList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="withDrawMoneyCreateModal" tabindex="-1" role="dialog" aria-labelledby="withDrawMoneyCreateModal" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+            </div>
+        </div>
+    </div>
+</div>

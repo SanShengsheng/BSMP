@@ -1,0 +1,234 @@
+﻿{
+  "OnLine": {
+    "Easys": [
+      {
+        "Id": 1,
+        "Content": "开放朋友圈"
+      },
+      {
+        "Id": 2,
+        "Content": "讲个笑话"
+      },
+      {
+        "Id": 3,
+        "Content": "秀一下卧室"
+      },
+      {
+        "Id": 4,
+        "Content": "5.20红包"
+      },
+      {
+        "Id": 5,
+        "Content": "空"
+      },
+      {
+        "Id": 6,
+        "Content": "近期自拍照"
+      },
+      {
+        "Id": 7,
+        "Content": "说句撩人情话"
+      },
+      {
+        "Id": 8,
+        "Content": "回答一个问题"
+      },
+      {
+        "Id": 9,
+        "Content": "语音撒娇"
+      }
+    ],
+    "Normals": [
+      {
+        "Id": 1,
+        "Content": "发素颜照"
+      },
+      {
+        "Id": 2,
+        "Content": "帮点外卖"
+      },
+      {
+        "Id": 3,
+        "Content": "换情侣头像"
+      },
+      {
+        "Id": 4,
+        "Content": "88元红包"
+      },
+      {
+        "Id": 5,
+        "Content": "空"
+      },
+      {
+        "Id": 6,
+        "Content": "打一通电话"
+      },
+      {
+        "Id": 7,
+        "Content": "视频五分钟"
+      },
+      {
+        "Id": 8,
+        "Content": "扮演一天孩子"
+      },
+      {
+        "Id": 9,
+        "Content": "说出十个优点"
+      }
+    ],
+    "Purgatorys": [
+      {
+        "Id": 1,
+        "Content": "登顶81道难关"
+      },
+      {
+        "Id": 2,
+        "Content": "哄睡觉一周"
+      },
+      {
+        "Id": 3,
+        "Content": "开始一段网恋"
+      },
+      {
+        "Id": 4,
+        "Content": "520元红包"
+      },
+      {
+        "Id": 5,
+        "Content": "空"
+      },
+      {
+        "Id": 6,
+        "Content": "清空购物车"
+      },
+      {
+        "Id": 7,
+        "Content": "私密小视频"
+      },
+      {
+        "Id": 8,
+        "Content": "朋友圈表白"
+      },
+      {
+        "Id": 9,
+        "Content": "约一次见面"
+      }
+    ]
+  },
+  "OffLine": {
+    "Easys": [
+      {
+        "Id": 1,
+        "Content": "看电影"
+      },
+      {
+        "Id": 2,
+        "Content": "吃饭"
+      },
+      {
+        "Id": 3,
+        "Content": "喝杯咖啡"
+      },
+      {
+        "Id": 4,
+        "Content": "K歌"
+      },
+      {
+        "Id": 5,
+        "Content": "空"
+      },
+      {
+        "Id": 6,
+        "Content": "牵手"
+      },
+      {
+        "Id": 7,
+        "Content": "甜蜜投食"
+      },
+      {
+        "Id": 8,
+        "Content": "摸头杀"
+      },
+      {
+        "Id": 9,
+        "Content": "看话剧"
+      }
+    ],
+    "Normals": [
+      {
+        "Id": 1,
+        "Content": "买件好看衣服"
+      },
+      {
+        "Id": 2,
+        "Content": "陪逛内衣店"
+      },
+      {
+        "Id": 3,
+        "Content": "接送上下班"
+      },
+      {
+        "Id": 4,
+        "Content": "做爱心便当"
+      },
+      {
+        "Id": 5,
+        "Content": "空"
+      },
+      {
+        "Id": 6,
+        "Content": "帮对方大扫除"
+      },
+      {
+        "Id": 7,
+        "Content": "带见朋友"
+      },
+      {
+        "Id": 8,
+        "Content": "游乐场游玩"
+      },
+      {
+        "Id": 9,
+        "Content": "互送礼物"
+      }
+    ],
+    "Purgatorys": [
+      {
+        "Id": 1,
+        "Content": "无性陪睡"
+      },
+      {
+        "Id": 2,
+        "Content": "坦白局"
+      },
+      {
+        "Id": 3,
+        "Content": "甜蜜旅行"
+      },
+      {
+        "Id": 4,
+        "Content": "见家长"
+      },
+      {
+        "Id": 5,
+        "Content": "空"
+      },
+      {
+        "Id": 6,
+        "Content": "看爱豆演唱会"
+      },
+      {
+        "Id": 7,
+        "Content": "蹦极"
+      },
+      {
+        "Id": 8,
+        "Content": "接吻"
+      },
+      {
+        "Id": 9,
+        "Content": "泡温泉"
+      }
+    ]
+  }
+}

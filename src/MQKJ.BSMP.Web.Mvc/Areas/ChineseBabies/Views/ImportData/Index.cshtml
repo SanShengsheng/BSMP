@@ -1,0 +1,100 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.CurrentPageName = PageNames.ImportData;
+}
+<script src="~/lib/angularjs/angular.min.js"></script>
+<script src="~/view-resources/Views/ImportData/importData.js"></script>
+
+
+<div class="container" id="importAppContainer" ng-app="importApp">
+
+    <div class="row" ng-controller="importCtrl as vm">
+
+        <div class="col-sm-12">
+            <form class="form-inline" id="importForm">
+                <ul class="list-group">
+                    <li class="list-group-item"><h4>待导入数据任务</h4> </li>
+                    <li class="list-group-item form-inline" ng-repeat="(idx,task) in vm.uploadTasks">
+                        <div ng-click="vm.removeTask($event,idx)" class="form-group" style='width:50px;'>
+                            <span class="glyphicon glyphicon-remove remove-item"></span>
+                        </div>
+                        <div class="form-group" style='width:100px;'>
+                            <input id="{{'hiddenfile'+idx}}" data-identity="{{idx}}" type="file" style="display:none;" name="name" value="" />
+                            <label for="{{'hiddenfile'+idx}}" class="btn btn-sm btn-primary">选择文件</label>
+
+                        </div>
+                        <div class="form-group" style='width:auto;max-width:400px;'>
+                            <span ng-show="task.fileName">{{task.fileName}}</span>
+                        </div>
+                        <div class="form-group" style='width:100px;'>
+                            <div class="dropdown ">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    {{task.selectType.description}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="(tidx,item) in vm.allTypes" ng-click="vm.onSelectTpye(tidx,task)"><a href="#" data-type="{{item.value}}">{{item.description}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="task.fileName" style="width:500px;">
+
+                            <div class="progress" style="margin-top:20px;">
+                                <div class="progress-bar progress-bar-striped" ng-class="{true:'progress-bar-danger',false:'progress-bar-success'}[task.hasError]" style="width: {{task.status}}%">
+                                    <span ng-show="task.status==80"> {{task.status}} % Complete (上传完毕,导入中...)</span>
+                                    <span ng-show="task.status==100"> {{task.status}} % Complete (导入完毕)</span>
+                                    <span ng-show="task.hasError"> {{task.status}} % Complete (导入失败)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="width:50px;">
+                            <span ng-show="task.status===100" class="glyphicon glyphicon-ok" style="color:green"></span>
+                        </div>
+                    </li>
+                    <li class="list-group-item text-right">
+                        <button type="button" class="btn btn-success" ng-disabled="vm.options.maxTask===vm.uploadTasks.length" ng-click="vm.pushTask()">添加导入</button>
+                        <button type="button" ng-disabled="!vm.options.isUploads" ng-click="vm.toUploads()" class="btn btn-danger">Upload </button>
+                    </li>
+                </ul>
+
+
+
+            </form>
+
+        </div>
+        <div class="col-sm-12 table-responsive" style="height:500px;" ng-show="vm.backGroundTasks.length>0">
+
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>类型</th>
+                        <th>状态</th>
+                        <th>大小</th>
+                        <th>耗时</th>
+                        <th>创建时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(idx,bktask) in vm.backGroundTasks" ng-class="{'0':'danger',1:'success',2:'info'}[bktask.state]">
+                        <td>{{bktask.fileName}}</td>
+                        <td>{{bktask.fileTypeDescription}}</td>
+                        <td>{{bktask.state | uploadStateFilter}}</td>
+                        <td>{{bktask.size}}</td>
+                        <td>{{bktask.elapsed}}</td>
+                        <td>{{bktask.creationTime|date : 'yy-MM-dd:HH:mm:ss'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .remove-item {
+        cursor: pointer;
+    }
+</style>

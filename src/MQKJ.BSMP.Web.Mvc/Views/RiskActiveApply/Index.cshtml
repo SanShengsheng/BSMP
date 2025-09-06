@@ -1,0 +1,18 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@{
+    ViewBag.CurrentPageName = PageNames.RiskActiveApply; // The menu item will be active for this page.
+
+}
+@section scripts
+    {
+
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="body table-responsive" id="">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>

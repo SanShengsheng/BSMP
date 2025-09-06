@@ -1,0 +1,46 @@
+﻿@using MQKJ.BSMP.GameTasks
+@using MQKJ.BSMP.GameTasks.Dtos
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.EnumHelper
+
+@model StaticPagedList<MQKJ.BSMP.GameTasks.Dtos.GameTaskListDto>
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>邀请方</th>
+            <th>被邀请方</th>
+            <th>任务开始时间
+            <th>被追求性别</th>
+            <th>好友关系类型</th>
+            <th>通关类型</th>
+            <th>约定内容</th>
+            <th>任务状态</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+        <tr>
+            <td>@(Model.IndexOf(task) + snStart + 1)</td>
+            <td>@(task.Inviter == null ? "无" : task.Inviter.NickName)</td>
+            <td>@(task.Invitee == null ? "无" : task.Invitee.NickName)</td>
+            <td>@task.CreationTime</td>
+            <td>@EnumHelper.GetDescription((SeekType)task.SeekType)</td>
+            <td>@EnumHelper.GetDescription((RelationDegree)task.RelationDegree)</td>
+            <td>@EnumHelper.GetDescription((TaskType)task.TaskType)</td>
+            <td>@task.AppointmentContent</td>
+            <td>@EnumHelper.GetDescription((TaskState)task.State)</td>
+            <td><span style="color:dodgerblue;cursor:pointer">查看</span></td>
+        </tr>
+        }
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))

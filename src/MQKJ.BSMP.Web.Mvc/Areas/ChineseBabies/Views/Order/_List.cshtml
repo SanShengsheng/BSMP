@@ -1,0 +1,37 @@
+﻿<el-row>
+    <el-table :data="items" border style="width: 100%">
+        <el-table-column prop="creationTime" :formatter='formatDate' header-align='center' align='center' label="创建日期">
+        </el-table-column>
+        <el-table-column prop="orderNumber" header-align='center' label="商户订单号">
+        </el-table-column>
+        <el-table-column prop="transactionId" header-align='center' label="微信订单号">
+        </el-table-column>
+        <el-table-column prop="player.nickName" header-align='center' align='center' label="付款人" width="180">
+        </el-table-column>
+        <el-table-column prop="agentName" header-align='center' align='center' label="代理">
+        </el-table-column>
+        <el-table-column prop="payment" header-align='center' align='center' label="支付金额">
+        </el-table-column>
+        <el-table-column prop="paymentTime" :formatter='formatDate' header-align='center' align='center' label="付款日期">
+        </el-table-column>
+        <el-table-column prop="tenantName" header-align='center' align='center' label="游戏平台">
+        </el-table-column>
+        <el-table-column prop="paymentType" :formatter='getPaymentType' header-align='center' align='center' label="充值平台">
+        </el-table-column>
+        <el-table-column prop="state" :formatter='getStateText' header-align='center' align='center' label="付款状态">
+        </el-table-column>
+        <el-table-column prop="familyId" header-align='center' align='center' label="家庭Id">
+        </el-table-column>
+        <el-table-column label="操作" header-align='center' align='center'>
+            <template slot-scope="scope">
+                @*<el-button size="mini" type="primary" @@click='ExportToExcel()'>导出到Excel</el-button>*@
+                <el-button size="mini" type="primary" v-if='scope.row.state === 1' @@click='queryOrderSate(scope.row.orderNumber)'>查询订单状态</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</el-row>
+<el-row>
+    <el-pagination background layout="prev, pager,sizes, next" @@size-change="handleSizeChange"
+    @@current-change="handleCurrentChange" :total="total" :page-size='search.pageSize' :page-sizes='[10,20,30,40,50]'>
+    </el-pagination>
+</el-row>

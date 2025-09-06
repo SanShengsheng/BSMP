@@ -1,0 +1,79 @@
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 0;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top:50px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.ui-header, .ui-name, .ui-baby-name, .ui-addon-status, .ui-note {
+    line-height: 3rem;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+   .ui-baby-name, .ui-note{
+        display:block;
+        width:100%;
+    }
+    .ui-header img {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 2rem;
+    }
+.ui-family-content .van-col{
+    margin:0.5rem 0;
+}
+.ui-family-footer{
+    text-align:right;
+}
+.ui-addon-status.on{
+    color:#00ff21;
+}
+
+.ui-addon-status.stop{
+    color:#ff0000;
+    font-weight:800;
+}
+.ui-family-panel{
+    margin-top:1rem;
+}
+
+.van-hairline--top-bottom::after {
+    border-bottom-color:#808080;
+    border-top:none;
+}
+.van-panel__footer{
+    padding:1rem 0;
+}

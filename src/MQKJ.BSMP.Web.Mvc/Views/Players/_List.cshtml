@@ -1,0 +1,93 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.Players;
+@model StaticPagedList<MQKJ.BSMP.Players.Dtos.PlayerListDto>
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+@section Styles
+    {
+    <environment names="Development,TestingQA">
+        <link rel="stylesheet" href="~/view-resources/Views/Players/Index.css" asp-append-version="true" />
+    </environment>
+
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/view-resources/Views/Players/Index.css" asp-append-version="true" />
+    </environment>
+
+}
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+<table class="table">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>昵称</th>
+            <th>头像</th>
+            <th>性别</th>
+            <th>年龄层</th>
+            <th>授权登录时间</th>
+            <th>状态</th>
+            <th style="width:5%">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in Model)
+        {
+            <tr>
+                <td>@(Model.IndexOf(player) + snStart + 1)</td>
+                <td>@player.NickName</td>
+                <td><img src="@player.HeadUrl" /></td>
+                @{
+                    if (player.Gender == (int)PlayerGender.Uknown)
+                    {
+                        <td>未知</td>
+                    }
+                    else if (player.Gender == (int)PlayerGender.Man)
+                    {
+                        <td>男</td>
+                    }
+                    else if (player.Gender == (int)PlayerGender.WoMan)
+                    {
+                        <td>女</td>
+
+                    }
+                    switch (player.AgeRange)
+                    {
+                        case 1:
+                            <td>22以下</td>
+                            break;
+                        case 2:
+                            <td>22-28</td>
+                            break;
+                        case 3:
+                            <td>28以上</td>
+                            break;
+                        default:
+                            <td>未知</td>
+                            break;
+                    }
+                    <td>@player.AuthorizeDateTime</td>
+                    if (player.State == (int)PlayerState.Authorized)
+                    {
+                        <td>已授权</td>
+                        <td style="color:#0099FF"><span style="cursor:pointer" class="editstate" data-tag-id="@player.Id">冻结</span></td>
+                    }
+                    else if (player.State == (int)PlayerState.Unauthorize)
+                    {
+
+                        <td>未授权</td>
+                        <td style="color:#0099FF"><span style="cursor:pointer" class="editstate" data-tag-id="@player.Id">冻结</span></td>
+                    }
+                    else if (player.State == (int)PlayerState.Freeze)
+                    {
+                        <td>冻结</td>
+                        <td style="color:#0099FF"><span style="cursor:pointer" class="editstate" data-tag-id="@player.Id">解除冻结</span></td>
+                    }
+                }
+            </tr>
+        }
+
+    </tbody>
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))

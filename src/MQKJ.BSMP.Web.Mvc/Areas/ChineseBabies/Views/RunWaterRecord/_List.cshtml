@@ -1,0 +1,154 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Common;
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.EnumHelper
+@using MQKJ.BSMP;
+@using MQKJ.BSMP.Common.Authorization.Users.Authorization;
+@model MQKJ.BSMP.Web.Areas.ChineseBabies.Models.RunWaterRecordModel;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>创建日期</th>
+            <th>充值用户</th>
+            <th>充值金额</th>
+            @if (User.IsInRole("companyAdmin"))
+            {
+                <th>主播收益</th>
+            }
+            else
+            {
+                <th>实际收益</th>
+            }
+            <th>收益比例</th>
+            <th>业务人Id</th>
+            <th>业务人</th>
+            <th>收益人</th>
+            <th>家庭Id</th>
+            <th>商户订单号</th>
+            @if (IsGranted(UserPermissions.QuerySubsidy))
+            {
+                <th>类别</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model.MoneyDetailedListDtos)
+            {
+                <tr>
+                    <td>@item.CreationTime</td>
+                    @{
+                        if (item.Order != null)
+                        {
+                            if (item.Order.Player != null)
+                            {
+                                <td>@item.Order.Player.NickName</td>
+                            }
+                            else
+                            {
+                                <td>无</td>
+                            }
+                        }
+                        else
+                        {
+                            <td>无</td>
+                        }
+                        <td>￥@item.Income</td>
+                        <td>￥@item.RealIncome</td>
+                        <td>@item.CurrentEarningRatio</td>
+                        <td>@item.MqAgentId</td>
+                        if (item.SecondAgent != null)
+                        {
+                            <td>@item.SecondAgent.NickName</td>
+                        }
+                        else
+                        {
+                            <td>@item.MqAgent.NickName</td>
+                        }
+                        <td>@item.MqAgent.NickName</td>
+                        if (item.Order == null)
+                        {
+                            <td>暂无</td>
+                            <td>暂无</td>
+                        }
+                        else
+                        {
+                            <td>@item.Order.FamilyId</td>
+                            <td>@item.Order.OrderNumber</td>
+                        }
+                        @if (IsGranted(UserPermissions.QuerySubsidy))
+                        {
+                            <td>@EnumHelper.GetDescription(item.IncomeTypeEnum)</td>
+                        }
+                    }
+                </tr>
+            }
+            @if (User.IsInRole("companyAdmin"))
+            {
+                <tr>
+                    <td style="color:white">hiden</td>
+                </tr>
+                <tr class="chk-col-red col-deep-orange" style="border:2px solid white;">
+                    <td class="align-left" style="position:relative;left:20%">
+                        <b>充值金额：</b>
+                        <b>￥@Math.Round(Model.TotalPayment, 2)</b>
+                    </td>
+                    <td class="align-left" style="position:relative;left:30%">
+                        <b>主播收益：</b>
+                        <b>￥@Math.Round(Model.TotalAnchorIncome, 2)</b>
+                    </td>
+                    <td class="align-left" style="position:relative;left:43%">
+                        <b>主播公司收益:</b>
+                        <b>
+                            ￥ @Math.Round(Model.BrokerTotalIncome.Value, 2)
+                        </b>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td style="color:white">hiden</td>
+                </tr>
+                <tr class="chk-col-red col-deep-orange" style="border:2px solid white;">
+                    <td class="align-left" style="position:relative;left:20%">
+                        <b>充值总金额：</b>
+                        <b>￥@Math.Round(Model.TotalPayment, 2)</b>
+                    </td>
+                    <td class="align-left" style="position:relative;left:30%">
+                        <b>充值总收益：</b>
+                        <b>￥@Math.Round(Model.TotalAnchorIncome, 2)</b>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@*@Html.PagedListPager((IPagedList)Model.MoneyDetailedListDtos, page => Url.Action("Index", new { page }))*@
+
+@Html.PagedListPager((IPagedList)Model.MoneyDetailedListDtos, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+    DisplayLinkToNextPage = PagedListDisplayMode.Never,
+    LinkToFirstPageFormat = "首页",
+    LinkToLastPageFormat = "末页",
+    DisplayPageCountAndCurrentLocation = true,
+    PageCountAndCurrentLocationFormat = "每页" + Model.MoneyDetailedListDtos.Count + "条共{1}页",
+    //DisplayItemSliceAndTotal = true,
+    //ItemSliceAndTotalFormat = "每页{1}条"
+})
+
+
+<style type="text/css">
+    .PagedList-pageCountAndLocation {
+        position: absolute;
+        right: 20px;
+        /*color:red !important;*/
+    }
+</style>
+

@@ -1,0 +1,150 @@
+﻿@using Abp.Application.Services.Dto
+@using MQKJ.BSMP.Scenes.Dto
+@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.Scenes
+@using MQKJ.BSMP
+@model Abp.Application.Services.Dto.PagedResultDto<GetScenesListDto>
+    @{
+        ViewBag.CurrentPageName = PageNames.Scenes;
+    }
+    @section styles {
+    <link href="~/view-resources/Views/Scenes/index.css" rel="stylesheet" asp-append-version="true" />
+    }
+    @section scripts{
+    <environment names="Development,TestingQA">
+        <script src="~/view-resources/Views/Scenes/Index.js" charset="gbk" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/Scenes/Index.js" charset="gbk" asp-append-version="true"></script>
+    </environment>
+    }
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        场景管理
+                    </h2>
+                    <ul class="header-dropdown m-r--5">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>@L("Refresh")</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    @foreach (var scene in Model.Items)
+                    {
+                    <div class="col-md-2">
+                        <a href="/Scenes/SceneImagePage?Id=@scene.Id" class="thumbnail">
+                            @{
+                            if (scene.SceneFile == null)
+                            {
+                            <img class="sceneimage" src="~/images/scene.jpg" alt="this is SceneImage" />
+                            }
+                            else
+                            {
+                            <img class="sceneimage" src="@scene.SceneFile.File.FilePath" alt="this is SceneImage">
+                            }
+                            }
+                            <span class="scenename">@scene.SceneName</span>
+                        </a>
+                        <div class="caption dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">menu</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#" class="waves-effect waves-block edit-scene" data-scene-id="@scene.Id" data-toggle="modal" data-target="#SceneCreateModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
+                                <li><a href="#" class="waves-effect waves-block delete-scene" data-scene-id="@scene.Id" data-scene-name="@scene.SceneName"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    }
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float customsize" data-toggle="modal" data-target="#SceneCreateModal">
+                            <i class="material-icons">add</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="SceneCreateModal" tabindex="-1" role="dialog" aria-labelledby="SceneCreateModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        添加场景
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form name="sceneCreateForm" role="form" novalidate class="form-validation">
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="hidden" name="Id" />
+                                        <input id="scenename" type="text" name="SceneName" required maxlength="@BSMPConsts.MaxSceneNameLength" minlength="2" class="validate form-control">
+                                        <label for="scenename" class="form-label">@L("SceneName")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="submit" class="btn btn-primary waves-effect">@L("Save")</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="SceneEditModal" tabindex="-1" role="dialog" aria-labelledby="SceneEditModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    @*<div class="modal fade" id="SceneEditModal" tabindex="-1" role="dialog" aria-labelledby="SceneEditModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>编辑场景</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form name="sceneCreateForm" role="form" novalidate class="form-validation">
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="hidden" name="Id" />
+                                        <input id="rolename" type="text" name="SceneName" required maxlength="@BSMPConsts.MaxSceneNameLength" minlength="2" class="validate form-control">
+                                        <label for="rolename" class="form-label">@L("SceneName")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="submit" class="btn btn-primary waves-effect">@L("Save")</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+

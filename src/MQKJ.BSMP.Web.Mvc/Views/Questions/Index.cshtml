@@ -1,0 +1,456 @@
+@using MQKJ.BSMP.Questions
+@using MQKJ.BSMP.Questions.Dtos
+@using MQKJ.BSMP.SceneFiles.Dto
+@using MQKJ.BSMP.Scenes.Dto
+@using MQKJ.BSMP.TagTypes.Dtos
+@using MQKJ.BSMP.Web.Startup
+@using X.PagedList
+@using MQKJ.BSMP.Authorization.Users
+@model StaticPagedList<QuestionListDto>
+@{
+    ViewBag.CurrentPageName = PageNames.Questions; // The menu item will be active for this page.
+    var creators = (List<User>)ViewBag.Creators;
+    var scenes = (List<GetScenesListDto>)ViewBag.Scenes;
+    var imgs = (List<GetSceneFileOutput>)ViewBag.SceneFiles;
+    var tagTypes = (IEnumerable<TagTypeListDto>)ViewBag.TagType;
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+@section scripts
+    {
+    <script src="~/lib/tinymce/tinymce.js"></script>
+    <script src="~/js/tinyEditor.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/view-resources/Views/Questions/index.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/view-resources/Views/Questions/_EditQuestion.js" asp-append-version="true"></script>
+    <link href="~/view-resources/Views/Questions/CreateOrEdit.css" rel="stylesheet" />
+    @*<environment names="Development,TestingQA">
+
+        </environment>
+
+        <environment names="Staging,Production">
+            <script src="~/view-resources/Views/Questions/Index.min.js" asp-append-version="true"></script>
+            <link href="~/view-resources/Views/Questions/CreateOrEdit.min.css" rel="stylesheet" />
+        </environment>*@
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>刷新</a></li>
+                            <li>
+                                <a class="waves-effect  waves-block " data-toggle="modal" data-target="#QuestionCreateModal">
+                                    <i class="material-icons">add</i>新增
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ExportToExcel")" class="waves-effect  waves-block " data-toggle="modal">
+                                    <i class="material-icons">explicit</i>导出
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="row" id="QuestionFilterDiv">
+                    <form name="questionListQueryForm" role="form" novalidate class="form-validation">
+                        <div class="col-sm-11">
+                            <div class="col-sm-2">
+                                <label class="">场&emsp;&emsp;景</label>
+                                <select id="scene" class="col-sm-8" name="sceneId">
+                                    <option value="0">不限</option>
+                                    @foreach (var scene in scenes)
+                                    {
+                                        <option value="@scene.Id">@scene.SceneName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="">男/女生版</label>
+                                <select id="pursuingGender" class="col-sm-8" name="pursuingGender">
+                                    <option value="">不限</option>
+                                    <option value="0">男</option>
+                                    <option value="1">女</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="">问题状态</label>
+                                <select id="questionState" class="col-sm-8" name="questionState">
+                                    <option value="">不限</option>
+                                    @foreach (var qsValue in Enum.GetValues(typeof(QuestionState)))
+                                    {
+                                        <option value="@qsValue.ToString()">@Enum.GetName(typeof(QuestionState), qsValue)</option>
+                                    }
+                                </select>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="">创建人</label>
+                                <select id="creator" class="col-sm-8" name="">
+                                    <option value="0">不限</option>
+                                    @foreach (var creator in creators)
+                                    {
+                                        if (creator != null)
+                                        {
+                                            <option value="@creator.Id">@creator.UserName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="filter" placeholder="请输入背景故事" />
+                            </div>
+                            <div class="col-sm-2 pull-right">
+                                <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right" data-toggle="modal" data-target="#QuestionCreateModal">
+                                    <i class="material-icons">add</i>
+                                </button>
+                                &emsp;&emsp;
+                                <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="SearchButton">
+                                    <i class="material-icons">search</i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-11">
+                            @foreach (var tagType in tagTypes)
+                            {
+                                <div class="col-sm-2">
+                                    <label class="">@tagType.TypeName</label>
+                                    <select class="col-sm-8" select-name="Tags">
+                                        <option value="">不限</option>
+                                        @foreach (var tag in tagType.Tags)
+                                        {
+                                            <option class="" name="" value="@tag.Id">@tag.TagName</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="body table-responsive" id="questionList">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="QuestionCreateModal" tabindex="-1" role="dialog" aria-labelledby="QuestionCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    <span>创建问题</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form name="questionCreateForm" role="form" novalidate class="form-validation">
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                        <li role="presentation" class="active"><a href="#create-question-details" data-toggle="tab">题库</a></li>
+                        @*<li role="presentation"><a href="#create-question-roles" data-toggle="tab">@L("QuestionRoles")</a></li>*@
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-question-details">
+                            <div class="row clearfix" style="margin-top:10px;">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select class="input-select" name="SceneId" required>
+                                                <option disabled selected>选择场景</option>
+                                                @foreach (var scene in scenes)
+                                                {
+                                                    <option value="@scene.Id">@scene.SceneName</option>
+                                                }
+                                            </select>
+                                            <label class="form-label  select-label">选择场景</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <select class="input-select" name="Pursuer" required>
+                                                <option disabled selected>男生版/女生版</option>
+                                                <option value="0">男生版</option>
+                                                <option value="1">女生版</option>
+                                            </select>
+                                            <label class="form-label select-label">男生版/女生版</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             
+ 
+                            @foreach (var tagType in tagTypes)
+                            {
+                              
+                                <div class="row clearfix">
+                                    <div class="col-sm-12"><h5>@tagType.TypeName</h5></div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-float">
+                                       @if(tagType.Code == "TopicTag" ){
+                                        //话题标签
+                                    <div class="g-container">
+                                        <div class="basic-grey">
+                                              <label for="lastname" class="control-label1"> 标签选择: </label>
+                                               <div class="Companies">
+                                                    <input class="form-control1" type="text" placeholder="请选择" id="js-groupId">
+                                                    
+                                                    
+                                                    <ul id="groupid">
+                                                     @foreach (var tag in tagType.Tags)
+                                            {
+                                                
+                                                 <li data-id="@tag.Id" name="tags" value="@tag.Id"><a href="javascript:void(0)">@tag.TagName</a></li>
+                                            }
+                                                       
+                                                       
+                                                    </ul>
+                                               </div>
+                                        </div>
+                                        
+                                        <div class="selectbox">
+                                    
+                                            
+                                        </div>
+                                          
+                                    </div>
+                                        }else{
+                                             @foreach (var tag in tagType.Tags)
+                                            {
+                                                
+                                                <button type="button" class="btn btn-default tag-button" name="tags" value="@tag.Id">@tag.TagName</button>
+                                            }
+                                        }
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row clearfix">
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12">
+                                        <h5>女生画面</h5>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <label class="form-label">*背景故事（长度为160个字）</label>
+                                                <div class="form-line">
+                                                    <textarea type="text" id="BackgroundStoryFemale-add" name="BackgroundStoryFemale" class="form-control background-story" required></textarea>
+                                                    @*<div id="BackgroundStoryFemale-add" class="">
+                                                        </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerFemale" name="AnswerFemaleA" class="form-control" required maxlength="160">
+                                                    <label class="form-label">*选项A</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerFemale" name="AnswerFemaleB" class="form-control" required maxlength="160">
+                                                    <label class="form-label">*选项B</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerFemale" name="AnswerFemaleC" class="form-control" maxlength="160">
+                                                    <label class="form-label">选项C</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerFemale" name="AnswerFemaleD" class="form-control" maxlength="160">
+                                                    <label class="form-label">选项D</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12">
+                                        <h5>男生画面</h5>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <label class="form-label">*背景故事（长度为160个字）</label>
+                                                <div class="form-line">
+                                                    <textarea type="text" id="BackgroundStoryMale-add" name="BackgroundStoryMale" class="form-control background-story" required maxlength="160"></textarea>
+                                                    @*<div id="BackgroundStoryMale-add">
+                                                        </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerMale" name="AnswerMaleA" class="form-control" required maxlength="160">
+                                                    <label class="form-label">*选项A</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerMale" name="AnswerMaleB" class="form-control" required maxlength="160">
+                                                    <label class="form-label">*选项B</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerMale" name="AnswerMaleC" class="form-control" maxlength="160">
+                                                    <label class="form-label">选项C</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" answer-name="AnswerMale" name="AnswerMaleD" class="form-control" maxlength="160">
+                                                    <label class="form-label">选项D</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                             <div class="row clearfix" style="margin-top: 10px;">
+                                <h5>题目作者</h5>
+                                <div class="col-sm-12">
+                                <div class="author">作者：</div>
+                                <div class="inp"> <input type="text" id="Author-add" name="Author" class="form-control" required></div>
+                                </div>
+                            </div>
+                            <div class="row clearfix" style="margin-top: 10px;">
+                                <h5>选择图片</h5>
+
+                                <div class="col-sm-10 col-sm-push-1">
+                                    <input type="hidden" value="" name="DefaultImgId" id="DefaultImgId" />
+                                    <!--Carousel Wrapper-->
+                                    <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel" data-interval="false">
+
+                                        <!--Controls-->
+                                        <div class="controls-top" style="display: none;">
+                                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float " href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float " href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+                                        </div>
+                                        <!--/.Controls-->
+                                        <!--Slides-->
+                                        <div class="carousel-inner" role="listbox">
+                                            <div class="item active">
+                                                <div class="col-md-4">
+                                                    <div class="card">
+                                                        <img class="card-img-top" src="/images/defaultScene.jpg" alt="默认图片" imgId="00000000-0000-0000-0000-000000000000">
+                                                        <div class="card-body">
+                                                            <h6 class="card-title">默认图片</h6>
+                                                            <p class="card-text"></p>
+                                                            <a class="btn" style="visibility: hidden;"></a>
+                                                            <i class="material-icons md-green md-30 pull-right ">check_circle</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (imgs != null && imgs.Count > 0)
+                                            {
+                                                var loopCount = 0;
+
+                                                foreach (var scene in scenes)
+                                                {
+                                                    loopCount = 0;
+                                                    var fileList = imgs.Where(i => i.SceneId == scene.Id).ToList();
+                                                    foreach (var img in fileList)
+                                                    {
+                                                        if (loopCount % 3 == 0 || loopCount == 0)
+                                                        {
+                                                            @: <div class="item ">
+                                                            }
+
+                                                            <div class="col-md-4" data-sceneImg="1" data-scene-id="@img.SceneId">
+                                                                <div class="card">
+                                                                    <img class="card-img-top" src="@img.File.FilePath" alt="Card image cap">
+                                                                    <div class="card-body">
+                                                                        <h6 class="card-title">@img.SceneFileName</h6>
+                                                                        <p class="card-text"></p>
+                                                                        <a class="btn btn-primary " data-scene-img-id="@img.File.Id">选择</a>
+                                                                        <i class="material-icons md-green md-30 pull-right  scene-img">check_circle</i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            if ((loopCount + 1) % 3 == 0 || loopCount == fileList.Count() - 1)
+                                                            {
+                                                            @:   </div>
+                                                        }
+                                                        loopCount++;
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                        <!--/.Slides-->
+
+                                    </div>
+                                    <!--/.Carousel Wrapper-->
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane animated fadeIn" id="create-question-roles">
+                                <div class="row">
+                                    <div class="col-sm-12 ">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary waves-effect">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="QuestionEditModal" tabindex="-1" role="dialog" aria-labelledby="QuestionEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>

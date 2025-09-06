@@ -1,0 +1,76 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost:9090/",
+      "sslPort": 0
+    },
+    "iisExpress": {
+      "applicationUrl": "http://localhost:62114/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    //  请勿将其他自定义配置文件放置于下方默认配置（MQKJ.BSMP.Web）文件之前
+    "MQKJ.BSMP.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:21061"
+    },
+    "Staging": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging",
+        "ASPNETCORE_URLS": "http://localhost:21061"
+      }
+      //"applicationUrl": "http://localhost:21061"
+    },
+    "TestingQA": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "TestingQA",
+        "ASPNETCORE_URLS": "http://localhost:21061"
+      }
+      //"applicationUrl": "http://localhost:21061"
+    },
+    "MQKJ.BSMP.Web-gtp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://192.168.123.131:8888",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://192.168.123.131:8888",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "MQKJ.BSMP.Web.Host-fc": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://192.168.123.52:21022",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://192.168.123.52:21022",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "web-yzn": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://127.0.0.1:9000",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://127.0.0.1:9000",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

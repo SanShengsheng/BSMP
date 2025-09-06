@@ -1,0 +1,25 @@
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM microsoft/dotnet:2.1-sdk AS build
+WORKDIR /src
+COPY src/MQKJ.BSMP.Web.Host/MQKJ.BSMP.Web.Host.csproj src/MQKJ.BSMP.Web.Host/
+COPY src/MQKJ.BSMP.Web.Core/MQKJ.BSMP.Web.Core.csproj src/MQKJ.BSMP.Web.Core/
+COPY src/MQKJ.BSMP.Application/MQKJ.BSMP.Application.csproj src/MQKJ.BSMP.Application/
+COPY src/MQKJ.BSMP.Core/MQKJ.BSMP.Core.csproj src/MQKJ.BSMP.Core/
+COPY src/MQKJ.BSMP.EntityFrameworkCore/MQKJ.BSMP.EntityFrameworkCore.csproj src/MQKJ.BSMP.EntityFrameworkCore/
+RUN dotnet restore src/MQKJ.BSMP.Web.Host/MQKJ.BSMP.Web.Host.csproj
+COPY . .
+WORKDIR /src/src/MQKJ.BSMP.Web.Host
+RUN dotnet build MQKJ.BSMP.Web.Host.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish MQKJ.BSMP.Web.Host.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+VOLUME ["/app/wwwroot"]
+VOLUME ["/app/App_Data"]
+ENTRYPOINT ["dotnet", "MQKJ.BSMP.Web.Host.dll"]

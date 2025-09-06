@@ -1,0 +1,99 @@
+﻿@using MQKJ.BSMP.GameTasks;
+@using MQKJ.BSMP.GameTasks.Dtos;
+@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP.EnumHelper
+@{
+    ViewBag.CurrentPageName = PageNames.GameTasks; // The menu item will be active for this page.
+}
+@section styles{
+    <link href="~/view-resources/Views/BonusPoints/Index.css" asp-append-version="true" />
+    <link href="~/lib/laydate/theme/default/laydate.css" asp-append-version="true" />
+}
+@section scripts
+    {
+    <environment names="Development,TestingQA">
+        <script src="~/view-resources/Views/GameTask/Index.js" asp-append-version="true"></script>
+        <script src="~/lib/laydate/laydate.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/GameTask/Index.js" asp-append-version="true"></script>
+        <script src="~/lib/laydate/laydate.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    任务管理
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>@L("Refresh")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="searchform" class="row">
+                <form class="">
+                    <div class="col-sm-11">
+                        <div class="form-group">
+                            <label style="margin-left:20px;margin-right:8px;" for="starttime" class="form-label">任务开始时间</label>
+                            <input id="starttime" type="text" name="starttime" readonly="readonly" class="form-inline">
+                            <label class="form-label">至</label>
+                            <input id="endtime" type="text" name="endtime" readonly="readonly" class="form-inline">
+
+                            <label style="margin-left:15px;margin-right:8px;" for="username" class="form-label">用户昵称</label>
+                            <input id="nickName" type="text" name="nickName" class="form-inline">
+                            <label style="margin-left:15px;margin-right:8px;" for="tasktype" class="form-label">通关类型</label>
+                            <select id="taskType" class="col-sm-2">
+                                <option value="">不限</option>
+                                <option value="@Convert.ToInt32(TaskType.ThreeQuesion)">@EnumHelper.GetDescription(TaskType.ThreeQuesion)</option>
+                                <option value="@Convert.ToInt32(TaskType.FiveQuestion)">@EnumHelper.GetDescription(TaskType.FiveQuestion)</option>
+                                <option value="@Convert.ToInt32(TaskType.TenQuestion)">@EnumHelper.GetDescription(TaskType.TenQuestion)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-11">
+                        <div class="form-group">
+                            <label style="margin-left:20px;margin-right:8px;" for="taskstate" class="form-label">任务状态</label>
+                            <select id="taskState" class="col-sm-2">
+                                <option value="">不限</option>
+                                <option value="@Convert.ToInt32(TaskState.TaskReady)">@EnumHelper.GetDescription(TaskState.TaskReady)</option>
+                                <option value="@Convert.ToInt32(TaskState.TaskProgress)">@EnumHelper.GetDescription(TaskState.TaskProgress)</option>
+                                <option value="@Convert.ToInt32(TaskState.TaskSuccess)">@EnumHelper.GetDescription(TaskState.TaskSuccess)</option>
+                                <option value="@Convert.ToInt32(TaskState.TaskFailure)">@EnumHelper.GetDescription(TaskState.TaskFailure)</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="seektype" class="form-label">被追求类型</label>
+                            <select id="seekType" class="col-sm-2">
+                                <option value="">不限</option>
+                                <option value="@Convert.ToInt32(SeekType.ManSeekWoMan)">@EnumHelper.GetDescription(SeekType.ManSeekWoMan)</option>
+                                <option value="@Convert.ToInt32(SeekType.WoManSeekMan)">@EnumHelper.GetDescription(SeekType.WoManSeekMan)</option>
+                            </select>
+                            <label style="margin-left:15px;margin-right:8px;" for="relationtype" class="form-label">好友关系类型</label>
+                            <select id="relationType" class="col-sm-2">
+                                <option value="">不限</option>
+                                <option value="@Convert.ToInt32(RelationDegree.Ordinary)">@EnumHelper.GetDescription(RelationDegree.Ordinary)</option>
+                                <option value="@Convert.ToInt32(RelationDegree.Ambiguous)">@EnumHelper.GetDescription(RelationDegree.Ambiguous)</option>
+                                <option value="@Convert.ToInt32(RelationDegree.Lovers)">@EnumHelper.GetDescription(RelationDegree.Lovers)</option>
+                                <option value="@Convert.ToInt32(RelationDegree.Couple)">@EnumHelper.GetDescription(RelationDegree.Couple)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button style="position:absolute;right:15%;top:88px;" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float " id="SearchBtn">
+                        <i class="material-icons">search</i>
+                    </button>
+                </form>
+            </div>
+            <div id="taskList" class="body table-responsive">
+                @Html.Partial("_List")
+            </div>
+        </div>
+    </div>
+</div>

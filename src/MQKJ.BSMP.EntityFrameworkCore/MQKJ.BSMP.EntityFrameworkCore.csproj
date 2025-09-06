@@ -1,0 +1,265 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RuntimeFrameworkVersion>2.1.6</RuntimeFrameworkVersion>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <RootNamespace>MQKJ.BSMP</RootNamespace>
+    
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <Configurations>Debug;Release;IIS;running</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20180719102544_Add_ConnectionId_For_GameTask_To_BSMP.cs" />
+    <Compile Remove="Migrations\20180720101632_Added_To_Customer_V1.0.cs" />
+    <Compile Remove="Migrations\20180721122929_update_question_defaultImgId_fildType.cs" />
+    <Compile Remove="Migrations\20180728095204_fix-scenefile-to-many-file.cs" />
+    <Compile Remove="Migrations\20180728095638_add-bsmpfile-scenefile.cs" />
+    <Compile Remove="Migrations\20180730094302_remove-question-homefiledId.cs" />
+    <Compile Remove="Migrations\20180803053103_add-question-foreignkey-defaultimg.cs" />
+    <Compile Remove="Migrations\20180803053940_alter-question-defaultimgid-to-cannullable.cs" />
+    <Compile Remove="Migrations\20180803065727_add-question-foreignkey-defaultimg.cs" />
+    <Compile Remove="Migrations\20180809023519_add-questionbank.cs" />
+    <Compile Remove="Migrations\20180809024435_add-questionbank.cs" />
+    <Compile Remove="Migrations\20180809025117_add-questionbank.cs" />
+    <Compile Remove="Migrations\20180808082326_Remove_GameTask.cs" />
+    <Compile Remove="Migrations\20180808082730_Remove_GameTask.cs" />
+    <Compile Remove="Migrations\20180822033853_add-questionBank-some-filed.cs" />
+    <Compile Remove="Migrations\20180914040633_update_ModifyCount_For_Player.cs" />
+    <Compile Remove="Migrations\20180914091723_add_Entity_Feedback_And_Like.cs" />
+    <Compile Remove="Migrations\20180914092430_add-none.cs" />
+    <Compile Remove="Migrations\20180914095006_update_player_ss.cs" />
+    <Compile Remove="Migrations\20180914095546_update_player_ss.cs" />
+    <Compile Remove="Migrations\20180914095918_Add_Entity_Feedback_And_Like.cs" />
+    <Compile Remove="Migrations\20180914100042_Add_Entity_Feedback_And_Like.cs" />
+    <Compile Remove="Migrations\20180914114213_remove_Id.cs" />
+    <Compile Remove="Migrations\20181011023450_Upgrade_GameTask_Add_InviteeAppointmentContent_Remove_ConnectionId_BeConnectionId.cs" />
+    <Compile Remove="Migrations\20181011023802_Upgrade_GameTask_Add_InviteeAppointmentContent_Remove_ConnectionId_BeConnectionId.cs" />
+    <Compile Remove="Migrations\20181016114943_Upgrade_AnswerQuestion_Add_InviterSort_And_InviteeSort.cs" />
+    <Compile Remove="Migrations\20181017094255_Add_Friend_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181017100005_Add_Friend_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181017100426_Add_Friend_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181017113937_Add_Friend_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181017114505_Add_Friend_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181018092542_upgrade_Friend_For_DefaultValue_HeartCount.cs" />
+    <Compile Remove="Migrations\20181019024605_Upgrade_Friend_DefaultValue_For_HeartCount_And_Floor.cs" />
+    <Compile Remove="Migrations\20181019025134_Upgrade_Friend_DefaultValue_For_HeartCount_And_Floor.cs" />
+    <Compile Remove="Migrations\20181019025728_Upgrade_Friend_For_Add_HeartCount_And_Floor.cs" />
+    <Compile Remove="Migrations\20181022120701_add-playerExtenstion-key-playerGuid.cs" />
+    <Compile Remove="Migrations\20181023062846_Upgrade_Player_For_Add_Stamina.cs" />
+    <Compile Remove="Migrations\20181026094920_update-players-playerExtensionId-to-nullalbe.cs" />
+    <Compile Remove="Migrations\20181031031152_Add_StaminaRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181031031411_Add_StaminaRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181031063612_Upgrade_StaminaRecord_Id_Guid.cs" />
+    <Compile Remove="Migrations\20181031070000_ReAdd_StaminaRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181031070634_ReAdd_StaminaRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181031072314_ReAdd_StaminaRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181102110702_Upgrade_Player_For_Add_Player.cs" />
+    <Compile Remove="Migrations\20181113133138_update-RiskActiveApply-table-declarationOfDating-to-string-type.cs" />
+    <Compile Remove="Migrations\20181129033137_add_test.cs" />
+    <Compile Remove="Migrations\20181218023912_Add_LoveCardFile_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181218024307_Add_LoveCardFile_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181218024420_Add_LoveCardFile_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181218054721_Remove_PlayerLabel_From_BSMP.cs" />
+    <Compile Remove="Migrations\20181218055001_Remove_PlayerLabel_From_BSMP.cs" />
+    <Compile Remove="Migrations\20181218063019_Upgrade_LoveCardOptions_Add_OptionPlayer.cs" />
+    <Compile Remove="Migrations\20181218065954_Upgrade_LoveCardOptions_Remove_LoveCard.cs" />
+    <Compile Remove="Migrations\20181218070131_Upgrade_LoveCardOptions_Remove_LoveCard.cs" />
+    <Compile Remove="Migrations\20181218070248_Upgrade_LoveCard_Add_UserName.cs" />
+    <Compile Remove="Migrations\20181218070421_Upgrade_LoveCardOptions_Remove_LoveCardId.cs" />
+    <Compile Remove="Migrations\20181218071033_Upgrade_LoveCardOptions_Remove_LoveCardId.cs" />
+    <Compile Remove="Migrations\20181218072504_Upgrade_LoveCardOption_Add_OptionPlayerId.cs" />
+    <Compile Remove="Migrations\20181218100436_Upgrade_PlayerLabel_For_Remove_PlayerId_test.cs" />
+    <Compile Remove="Migrations\20181219032934_Test111111.cs" />
+    <Compile Remove="Migrations\20181220132927_Upgrade_LoveCard_For_Add_ViewsCount.cs" />
+    <Compile Remove="Migrations\20181220134707_Upgrade_LoveCard_For_Add_ViewsCount_ReAdd.cs" />
+    <Compile Remove="Migrations\20181224032411_Upgrade_Player_For_BirthDate.cs" />
+    <Compile Remove="Migrations\20181224053314_Add_UnLockers_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181224053602_Add_UnLockers_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181229040838_Upgrade_Order_For_Add_ProductId.cs" />
+    <Compile Remove="Migrations\20181231034029_Intial_ChineseBaby_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181231035937_Intial_ChineseBaby_To_BSMP.cs" />
+    <Compile Remove="Migrations\20181231075328_Upgrade_Player_For_Add_InviterId.cs" />
+    <Compile Remove="Migrations\20181231080704_Upgrade_Player_For_Add_InviterId.cs" />
+    <Compile Remove="Migrations\20190102035022_test_3.cs" />
+    <Compile Remove="Migrations\20190102065215_Test_4.cs" />
+    <Compile Remove="Migrations\20190103053908_Upgrde_ChangeProfessionCost_For_Add_ProductId.cs" />
+    <Compile Remove="Migrations\20190103054435_Test_3.cs" />
+    <Compile Remove="Migrations\20190103055238_Upgrde_ChangeProfessionCost_For_Add_ProductId.cs" />
+    <Compile Remove="Migrations\20190103055624_Upgrde_Profess_For_Add_ProductId.cs" />
+    <Compile Remove="Migrations\20190103060124_Upgrde_Profess_For_Add_ProductId.cs" />
+    <Compile Remove="Migrations\20190103061027_Upgrde_Profess_For_Add_ProductId.cs" />
+    <Compile Remove="Migrations\20190103064135_Upgrade_Profession_Add_ProductId_Foreign.cs" />
+    <Compile Remove="Migrations\20190103101952_Add_ChangeProfessionRecords_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190105081118_Upgrade_ChangeProfessionCosts_For_modify_Cost_For_Double.cs" />
+    <Compile Remove="Migrations\20190106081212_update-sensitiveWord-table-schema.cs" />
+    <Compile Remove="Migrations\20190106082308_add-sensitiveWord-table.cs" />
+    <Compile Remove="Migrations\20190107093640_Add_CoinCostRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190107102342_Add_MoneyCostRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190107161438_update-sensitiveWord-length-to-max.cs" />
+    <Compile Remove="Migrations\20190107161728_update-sensitiveWord-length-to-max.cs" />
+    <Compile Remove="Migrations\20190108080722_add-family-babies.cs" />
+    <Compile Remove="Migrations\20190109045810_DeleteErrTable_From_BSMP.cs" />
+    <Compile Remove="Migrations\20190110025122_Add_CoinRechargeRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190110050458_test444.cs" />
+    <Compile Remove="Migrations\20190109144950_add-babyEvent-babyEventRecord-list.cs" />
+    <Compile Remove="Migrations\20190110092227_add-babyEvent-EventGroupBabyEvents-list.cs" />
+    <Compile Remove="Migrations\20190110093557_add-babyEvent-EventGroupBabyEvents-list.cs" />
+    <Compile Remove="Migrations\20190111072104_add-event-age-and-studyType-and-studyAllowMaxTime-and-add-baby-ageString-field.cs" />
+    <Compile Remove="Migrations\20190114022328_Add_EnterpirsePaymentRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190114023551_Add_EnterpirsePaymentRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190114024237_Add_EnterpirsePaymentRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190115023033_test_333.cs" />
+    <Compile Remove="Migrations\20190116110505_Upgrade_MQAgent_For_Add_Password.cs" />
+    <Compile Remove="Migrations\20190117123106_Upgrade_MQAgent_For_Add_PubOpenId_And_UnionId.cs" />
+    <Compile Remove="Migrations\20190118073231_Add_AgentInviteCode_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190118073436_Add_AgentInviteCode_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190118073655_Add_AgentInviteCode_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190118075019_upgrade_AgentInviteCode_For_Modify_AgentId_eablenull.cs" />
+    <Compile Remove="Migrations\20190119035200_alter-mqagents-fields.cs" />
+    <Compile Remove="Migrations\20190119052734_Upgrade_MqAgent_For-Add_ParentInviteCode_And_Modify_AgentInviteCode.cs" />
+    <Compile Remove="Migrations\20190119124825_add_agent_field_to_family.cs" />
+    <Compile Remove="Migrations\20190121034622_add_somecloumns_to_autorunconfig.cs" />
+    <Compile Remove="Migrations\20190121095935_add-some-modify.cs" />
+    <Compile Remove="Migrations\20190121100335_add-somecolumns-autoconfig.cs" />
+    <Compile Remove="Migrations\20190121100645_add-somecolumns-autoconfig.cs" />
+    <Compile Remove="Migrations\20190121073536_test-add-familyLevel.cs" />
+    <Compile Remove="Migrations\20190122012941_add-somemodify-for-agent.cs" />
+    <Compile Remove="Migrations\20190123151236_Test_44444.cs" />
+    <Compile Remove="Migrations\20190124113942_Upgrde_MqAgent_For_Modify_WithdrawMoneyState.cs" />
+    <Compile Remove="Migrations\20190124122748_etetete.cs" />
+    <Compile Remove="Migrations\20190131090350_add-babyid-to-autorecord.cs" />
+    <Compile Remove="Migrations\20190202053012_Upgrade_Order_For_PaymentType.cs" />
+    <Compile Remove="Migrations\20190203032300_add-talbe-wechatpaynotify.cs" />
+    <Compile Remove="Migrations\20190213060749_Upgrade_IncomeRecord_For_Add_SecondAgentId.cs" />
+    <Compile Remove="Migrations\20190222093534_Upgrade_MqAgent_For_Add_Source.cs" />
+    <Compile Remove="Migrations\20190222134518_add-systemMessages-table.cs" />
+    <Compile Remove="Migrations\20190309091726_Add_BuyFightTimesRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190309094405_Upgrade_Family_For_Add_FightCount.cs" />
+    <Compile Remove="Migrations\20190309104957_Upgrade_BuyFightCountRecord_For_Midify_FamilyId_And_PurchaserId.cs" />
+    <Compile Remove="Migrations\20190309111042_Add_ChineseBabyMarket_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190309113124_Add_BuyProductRecord_And_ChineseBabyMarkets.cs" />
+    <Compile Remove="Migrations\20190309113628_Upgrade_BuyProductRecords_Remove_FightCount_Add_CoinCount.cs" />
+    <Compile Remove="Migrations\20190311100901_Add_BuyFightCountRecords_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190311104028_Upgrade_Family_FightCount_Default.cs" />
+    <Compile Remove="Migrations\20190311104600_Upgrade_Family_FightCount_Default.cs" />
+    <Compile Remove="Migrations\20190311104749_Upgrade_Family_FightCount_Default_1.cs" />
+    <Compile Remove="Migrations\20190311105324_Upgrade_Family_FightCount_Default_2.cs" />
+    <Compile Remove="Migrations\20190311111255_Ugrade_Family_Add_MaxValue_FightCount.cs" />
+    <Compile Remove="Migrations\20190311111555_Ugrade_Family_Add_MaxValue_FightCount.cs" />
+    <Compile Remove="Migrations\20190319083727_prop-module-ini.cs" />
+    <Compile Remove="Migrations\20190319083727_prop-module-ini.Designer.cs" />
+    <Compile Remove="Migrations\20190320080734_add-propStore-some-field.cs" />
+    <Compile Remove="Migrations\20190320080734_add-propStore-some-field.Designer.cs" />
+    <Compile Remove="Migrations\20190321022938_propStore-modify-01.cs" />
+    <Compile Remove="Migrations\20190321022938_propStore-modify-01.Designer.cs" />
+    <Compile Remove="Migrations\20190321024641_remove-babypropRecords.cs" />
+    <Compile Remove="Migrations\20190321024641_remove-babypropRecords.Designer.cs" />
+    <Compile Remove="Migrations\20190321025103_add-babypropRecords.cs" />
+    <Compile Remove="Migrations\20190321025103_add-babypropRecords.Designer.cs" />
+    <Compile Remove="Migrations\20190321040141_add-FamilyCoinDepositChangeRecord.cs" />
+    <Compile Remove="Migrations\20190321040141_add-FamilyCoinDepositChangeRecord.Designer.cs" />
+    <Compile Remove="Migrations\20190321090033_update-babyFamilyAsset-expiredDatetime.cs" />
+    <Compile Remove="Migrations\20190321090033_update-babyFamilyAsset-expiredDatetime.Designer.cs" />
+    <Compile Remove="Migrations\20190323113731_add-babyPropPropertyAward.cs" />
+    <Compile Remove="Migrations\20190323113731_add-babyPropPropertyAward.Designer.cs" />
+    <Compile Remove="Migrations\20190323122206_add-babyPropPropertyAward.cs" />
+    <Compile Remove="Migrations\20190323122206_add-babyPropPropertyAward.Designer.cs" />
+    <Compile Remove="Migrations\20190323122504_add-babyAssetRecord.cs" />
+    <Compile Remove="Migrations\20190323122504_add-babyAssetRecord.Designer.cs" />
+    <Compile Remove="Migrations\20190323124846_add-babyAssetAward.cs" />
+    <Compile Remove="Migrations\20190323124846_add-babyAssetAward.Designer.cs" />
+    <Compile Remove="Migrations\20190325084736_propStore-update.cs" />
+    <Compile Remove="Migrations\20190325084736_propStore-update.Designer.cs" />
+    <Compile Remove="Migrations\20190325085845_propStore-update.cs" />
+    <Compile Remove="Migrations\20190325085845_propStore-update.Designer.cs" />
+    <Compile Remove="Migrations\20190325090921_propStore-drop-babyPropTerm-table.cs" />
+    <Compile Remove="Migrations\20190325090921_propStore-drop-babyPropTerm-table.Designer.cs" />
+    <Compile Remove="Migrations\20190325091857_propStore-add-babyPropTerm-table.cs" />
+    <Compile Remove="Migrations\20190325091857_propStore-add-babyPropTerm-table.Designer.cs" />
+    <Compile Remove="Migrations\20190325092509_add-baby-prop-term-table.cs" />
+    <Compile Remove="Migrations\20190325092509_add-baby-prop-term-table.Designer.cs" />
+    <Compile Remove="Migrations\20190325100343_drop-babyPropTerm-table.cs" />
+    <Compile Remove="Migrations\20190325100343_drop-babyPropTerm-table.Designer.cs" />
+    <Compile Remove="Migrations\20190325102147_drop-babyPropTerm-table.cs" />
+    <Compile Remove="Migrations\20190325102147_drop-babyPropTerm-table.Designer.cs" />
+    <Compile Remove="Migrations\20190325105526_propStore-ini.cs" />
+    <Compile Remove="Migrations\20190325105526_propStore-ini.Designer.cs" />
+    <Compile Remove="Migrations\20190327070747_update-BabyProp-BabyPropPropertyAwardId-from-guid-to-int.cs" />
+    <Compile Remove="Migrations\20190327070747_update-BabyProp-BabyPropPropertyAwardId-from-guid-to-int.Designer.cs" />
+    <Compile Remove="Migrations\20190314125851_Inital_Athletics_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190318114036_Athletics_Intial.cs" />
+    <Compile Remove="Migrations\20190319024535_Athletics_intial.cs" />
+    <Compile Remove="Migrations\20190319031031_Athletics_intial.cs" />
+    <Compile Remove="Migrations\20190319033906_Athletics_intial.cs" />
+    <Compile Remove="Migrations\20190319035146_Athletics_intial.cs" />
+    <Compile Remove="Migrations\20190322082249_Upgrade_FightRecord.cs" />
+    <Compile Remove="Migrations\20190322083442_Upgrade_FightRecord.cs" />
+    <Compile Remove="Migrations\20190322083819_Upgrade_FightRecord.cs" />
+    <Compile Remove="Migrations\20190322084259_Upgrade_FightRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190322085237_Upgrade_FightRecord_To_BSMP.cs" />
+    <Compile Remove="Migrations\20190322085454_Upgrade_FightRecord_2019_03_22_22.cs" />
+    <Compile Remove="Migrations\20190322085913_Upgrade_FightRecords_For_Add_WinnerId_And_FailederId.cs" />
+    <Compile Remove="Migrations\20190322094834_Upgrade_FightRecords_For_Add_WinnerId_And_FailederId.cs" />
+    <Compile Remove="Migrations\20190322095041_Upgrade_FightRecords_For_Add_WinnerId_And_FailederId.cs" />
+    <Compile Remove="Migrations\20190322095641_Upgrade_FightRecords_For_Add_WinnerId_And_FailederId.cs" />
+    <Compile Remove="Migrations\20190322121218_Upgrade_Information_For_Add_Interval.cs" />
+    <Compile Remove="Migrations\20190325082347_Upgrade_RunHorseInformations_For_Add_Priority.cs" />
+    <Compile Remove="Migrations\20190327031647_unkonw.cs" />
+    <Compile Remove="Migrations\20190329040452_update-babyAssetAward-ini.cs" />
+    <Compile Remove="Migrations\20190329040452_update-babyAssetAward-ini.Designer.cs" />
+    <Compile Remove="Migrations\20190328104907_Upgrade_3343434.cs" />
+    <Compile Remove="Migrations\20190328105159_Upgrade_3343434.cs" />
+    <Compile Remove="Migrations\20190329022417_Upgrade_FightRecord_For_Add_PropAdditionRate11.cs" />
+    <Compile Remove="Migrations\20190330100446_update-BabyPropFeatures-BabyPropFeatureTypeId-field.cs" />
+    <Compile Remove="Migrations\20190330100446_update-BabyPropFeatures-BabyPropFeatureTypeId-field.Designer.cs" />
+    <Compile Remove="Migrations\20190401140310_add-babyPropBag-nextPropBag.cs" />
+    <Compile Remove="Migrations\20190401140310_add-babyPropBag-nextPropBag.Designer.cs" />
+    <Compile Remove="Migrations\20190402092737_update-BabyAssetAwards-BabyFamilyAssetId-to-guid.cs" />
+    <Compile Remove="Migrations\20190402092737_update-BabyAssetAwards-BabyFamilyAssetId-to-guid.Designer.cs" />
+    <Compile Remove="Migrations\20190402093448_remove-BabyAssetAwards-BabyFamilyAssetId.cs" />
+    <Compile Remove="Migrations\20190402093448_remove-BabyAssetAwards-BabyFamilyAssetId.Designer.cs" />
+    <Compile Remove="Migrations\20190402094450_remove-BabyAssetAwards-BabyFamilyAssetId.cs" />
+    <Compile Remove="Migrations\20190402094450_remove-BabyAssetAwards-BabyFamilyAssetId.Designer.cs" />
+    <Compile Remove="Migrations\20190402144644_add-babyPropBagAndBabyProps-table.cs" />
+    <Compile Remove="Migrations\20190402144644_add-babyPropBagAndBabyProps-table.Designer.cs" />
+    <Compile Remove="Migrations\20190410115359_update-babyProps-isInheritAble-default-to-true.cs" />
+    <Compile Remove="Migrations\20190410115359_update-babyProps-isInheritAble-default-to-true.Designer.cs" />
+    <Compile Remove="Migrations\20190415080316_Upgrade_Orders_For_Modify_ProductId_enableNull1.cs" />
+    <Compile Remove="Migrations\20190417073953_Upgrade_Orders_For_Modify_OrderId_Guid.cs" />
+    <Compile Remove="Migrations\20190417074508_Upgrade_Orders_For_Rmove_OrderId.cs" />
+    <Compile Remove="Migrations\20190417074653_Upgrade_Orders_For_Add_OrderId.cs" />
+    <Compile Remove="Migrations\20190424025646_add-worship.cs" />
+    <Compile Remove="Migrations\20190424030317_add-worship-modify.cs" />
+    <Compile Remove="Migrations\20190525082410_Add_Companys.cs" />
+    <Compile Remove="Migrations\20190525082410_Add_Companys.Designer.cs" />
+    <Compile Remove="Migrations\20190525104413_modify_abpuser_addfield_company.cs" />
+    <Compile Remove="Migrations\20190702073823_Upgrade_Order_Add_MerchantId.cs" />
+    <Compile Remove="Migrations\20190702073823_Upgrade_Order_Add_MerchantId.Designer.cs" />
+    <Compile Remove="Migrations\20190711071957_Add_Ad.cs" />
+    <Compile Remove="Migrations\20190711071957_Add_Ad.Designer.cs" />
+    <Compile Remove="Migrations\20190718090101_Update_Adviertisement_Add_PubLink_AppId.cs" />
+    <Compile Remove="Migrations\20190718090101_Update_Adviertisement_Add_PubLink_AppId.Designer.cs" />
+    <Compile Remove="Migrations\20190718090347_Update_Adviertisement_Add_PubLink_AppId.cs" />
+    <Compile Remove="Migrations\20190718090347_Update_Adviertisement_Add_PubLink_AppId.Designer.cs" />
+    <Compile Remove="Migrations\20190718091443_Update_Adviertisement_Add_PubLink_AppId.cs" />
+    <Compile Remove="Migrations\20190718091443_Update_Adviertisement_Add_PubLink_AppId.Designer.cs" />
+    <!--<Compile Remove="Migrations\20180727011713_add_fullAuditeEntity_filed_to_QuestonTags.cs" />
+    <Compile Remove="Migrations\20180727061109_add_SceneFileName_To_SceneFile.cs" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Dapper" Version="4.1.0" />
+    <PackageReference Include="Abp.HangFire.AspNetCore" Version="4.1.0" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.6.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MQKJ.BSMP.Core\MQKJ.BSMP.Core.csproj" />
+  </ItemGroup>
+  <!--<ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>-->
+</Project>

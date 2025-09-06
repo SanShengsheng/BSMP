@@ -1,0 +1,114 @@
+﻿@using MQKJ.BSMP.Web.Views.Shared.Components.SideBarUserArea
+@model SideBarUserAreaViewModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<div class="user-info">
+    <div class="image">
+        <img src="~/images/user.png" width="48" height="48" alt="User" />
+    </div>
+    <div class="info-container">
+        <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Html.Raw(Model.GetShownLoginName())</div>
+        <div class="email">@Model.LoginInformations.User.EmailAddress</div>
+        <div class="btn-group user-helper-dropdown">
+            <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="@Url.Action("Logout", "Account", new { area= string.Empty })"><i class="material-icons">input</i>@L("Logout")</a></li>
+                @*<li><a href="#" class="waves-effect waves-block modify-password" data-toggle="modal" data-target="#ModifyPasswordModal"><i class="material-icons">edit</i>@L("ModifyPassword")</a></li>*@
+                <li><a class="waves-effect waves-block modify-password" data-toggle="modal" data-target="#ModifyPasswordModal"><i class="material-icons">edit</i>@L("ModifyPassword")</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModifyPasswordModal" style="margin-top:10%;" tabindex="-1" role="dialog" aria-labelledby="ModifyPasswordModalLabel" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>@L("ModifyPassword")</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form name="userCreateForm" role="form" novalidate class="form-validation">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-user-details">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="password" id="OldPassword" name="OldPassword" class="form-control" required>
+                                            <label class="form-label">@L("OldPassword")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="password" id="NewPassword" name="NewPassword" class="form-control" required>
+                                            <label class="form-label">@L("NewPassword")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="password" id="ModifyConfirmPassword" name="ModifyConfirmPassword" class="form-control" required>
+                                        <label class="form-label">@L("ConfirmPassword")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="submit" id="modifyPasswordBtn" class="btn btn-primary waves-effect" value="">@L("Save")</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var _$modal = $('#ModifyPasswordModal');
+    var _$form = _$modal.find('form');
+    _$form.find('button[type="submit"]').click(function (e) {
+        var userId = $('#modifyPasswordBtn').val();
+            var oldPassword = $('#OldPassword').val();
+            var newPassword = $('#NewPassword').val();
+            var confirmPassword = $('#ModifyConfirmPassword').val();
+            e.preventDefault();
+            if (newPassword != confirmPassword) {
+                alert('两次密码输入不一致');
+                return;
+            }
+            abp.ui.setBusy(_$modal);
+            $.ajax({
+                url: abp.appPath + 'Account/ModifyPassword?oldPassword=' + oldPassword + '&newPassword=' + newPassword,
+                type: 'POST',
+                contentType: 'application/html',
+                success: function (content) {
+                    abp.ui.clearBusy(_$modal);
+                    if (content == null || content == '') {
+                        $('#ModifyPasswordModal').hide();
+                        alert('修改成功');
+                        //window.location.href = '/Account/Logout';
+                    } else {
+                        alert(content);
+                    }
+                    console.log(content);
+                },
+                error: function (e) {
+                    abp.ui.clearBusy(_$modal);
+                    alert("修改失败");
+                }
+            });
+    })
+</script>

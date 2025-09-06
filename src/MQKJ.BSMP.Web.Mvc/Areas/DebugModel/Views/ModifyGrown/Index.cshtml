@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "调试模式-宝宝成人";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/angularjs/angular.min.js"></script>
+<script src="~/view-resources/Views/DebugModel/modifyGrown.js"></script>
+<div class="container" id="modifyGrownId" ng-app="modifyGrownApp" ng-controller="modifyGrownCtrl as vm">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <span class="panel-title">查询条件</span>
+        </div>
+        <div class="panel-body">
+            <form class="form form-inline" name="queryForm">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                宝宝名字
+                            </div>
+                            <input type="text" value="" class="form-control input-papper" ng-model="vm.queryStrings.babyName" />
+                           
+                        </div>
+                    </div>
+                    <div class=" col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                宝宝ID
+                            </div>
+                            <input value="" name="fmbabyid" ng-pattern='/^[0-9]{0,}$/' class="form-control input-papper" ng-model="vm.queryStrings.babyId" />
+                            <div class="input-group-addon">
+                                <span ng-show="queryForm.fmbabyid.$dirty&&queryForm.fmbabyid.$valid" class="glyphicon glyphicon-ok font-green"></span>
+                                <span ng-show="queryForm.fmbabyid.$dirty&&!queryForm.fmbabyid.$valid" class="glyphicon glyphicon-remove font-red"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class=" col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                家庭ID
+                            </div>
+                            <input type="text" value="" name="fmfamilyid" ng-pattern='/^[0-9]{0,}$/' class="form-control input-papper" ng-model="vm.queryStrings.familyId" />
+                            <div class="input-group-addon">
+                                <span ng-show="queryForm.fmfamilyid.$dirty&&queryForm.fmfamilyid.$valid" class="glyphicon glyphicon-ok font-green"></span>
+                                <span ng-show="queryForm.fmfamilyid.$dirty&&!queryForm.fmfamilyid.$valid" class="glyphicon glyphicon-remove font-red"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-sm-4 ">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                妈妈ID
+                            </div>
+                            <input type="text" name="motherid" ng-minlength="36" ng-maxlength="36" value="" class="form-control input-papper" ng-model="vm.queryStrings.mother" />
+                            <div class="input-group-addon">
+                                <span ng-show="queryForm.motherid.$dirty&&queryForm.motherid.$valid" class="glyphicon glyphicon-ok font-green"></span>
+                                <span ng-show="queryForm.motherid.$dirty&&!queryForm.motherid.$valid" class="glyphicon glyphicon-remove font-red"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="  col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                爸爸ID
+                            </div>
+                            <input type="text" value="" name="fatherid" ng-minlength="36" ng-maxlength="36" class="form-control input-papper" ng-model="vm.queryStrings.father" />
+                            <div class="input-group-addon">
+                                <span ng-show="queryForm.fatherid.$dirty&&queryForm.fatherid.$valid" class="glyphicon glyphicon-ok font-green"></span>
+                                <span ng-show="queryForm.fatherid.$dirty&&!queryForm.fatherid.$valid" class="glyphicon glyphicon-remove font-red"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                妈妈昵称
+                            </div>
+                            <input type="text" value="" class="form-control input-papper" ng-model="vm.queryStrings.motherNickName" />
+                        </div>
+                    </div>
+
+
+                    <div class=" col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                爸爸昵称
+                            </div>
+                            <input type="text" value="" class="form-control input-papper" ng-model="vm.queryStrings.fatherNickName" />
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-right">
+                        <button class="btn btn-primary" ng-click="vm.loadBabies()">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title">查询结果</div>
+        </div>
+        <div class="panel-body table-responsive" style="height:400px;" >
+            
+            <table class="table table-bordered table-condensed table-striped">
+                <thead>
+                    <tr >
+                        <th class="text-center">宝宝名字</th>
+                        <th class="text-center">爸爸昵称</th>
+                        <th class="text-center">妈妈昵称</th>
+                        <th class="text-center">家庭ID</th>
+                        <th class="text-center">成长状态</th>   
+                        <th class="text-center">出生时间</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="baby in vm.babies">
+                        <td>{{baby.babyName}}</td>
+                        <td>{{baby.father}}</td>
+                        <td>{{baby.mother}}</td>
+                        <td>{{baby.familyId}}</td>
+                        <td>{{baby.isAdult| isAdultFilter}}</td>
+                        <td>{{baby.creationTime| date:'yy/MM/dd:HH:mm'}}</td>
+                        <td>
+                            <div class="dropdown" ng-hide="baby.isAdult">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    操 作
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" >
+                                    <li ng-click="vm.setUpLastEventOrAdult('event',baby)"><a href="#">设置最后一个事件组</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li ng-click="vm.setUpLastEventOrAdult('adult',baby)"><a href="#">直接成人</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer text-right">
+            <button class="btn btn-default" ng-disabled="vm.isLoaded" ng-click="vm.loadMores()">点击加载更多</button>
+        </div>
+    </div>
+</div>
+<style>
+    .font-green {
+        color:green;
+    }
+    .font-red{
+        color:red;
+    }
+    .input-papper {
+        background-color: #FFFFCC;
+    }
+</style>

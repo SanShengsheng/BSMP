@@ -1,0 +1,238 @@
+﻿@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@using X.PagedList
+@using X.PagedList.Mvc.Common;
+@using X.PagedList.Mvc.Core
+@using Microsoft.EntityFrameworkCore.Internal
+@using MQKJ.BSMP.EnumHelper
+@model StaticPagedList<MQKJ.BSMP.Dtos.MqAgentListDto>
+
+@{
+    var snStart = ((Model.PageNumber - 1) * Model.PageSize);
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>序号</th>*@
+            <th>代理Id</th>
+            <th>推广员姓名</th>
+            <th>手机号</th>
+            <th>身份证号</th>
+            <th>支付宝号</th>
+            <th>身份</th>
+            <th>昵称</th>
+            <th>头像</th>
+            <td>上级代理/推广</td>
+            <td>推广提现比列</td>
+            <td>代理提现比例</td>
+            @*<td>下级提现比例</td>*@
+            <td>专属邀请码</td>
+            <th>推广员状态</th>
+            <th>备注</th>
+            <th>所属公司</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    @*<td>@(Model.IndexOf(item) + snStart + 1)</td>*@
+                    @{
+                        if (string.IsNullOrEmpty(item.UserName))
+                        {
+                            <td>暂无</td>
+                        }
+                        else
+                        {
+                            <td>@item.UserName</td>
+                        }
+                        if (string.IsNullOrEmpty(item.PhoneNumber))
+                        {
+                            <td>暂无</td>
+                        }
+                        else
+                        {
+                            <td>@item.PhoneNumber</td>
+                        }
+                        if (string.IsNullOrEmpty(item.IdCardNumber))
+                        {
+                            <td>暂无</td>
+                        }
+                        else
+                        {
+                            <td>@item.IdCardNumber</td>
+                        }
+                        <td>@item.AliPayCardNO</td>
+                        <td>@EnumHelper.GetDescription(item.Level)</td>
+                        <td>@item.NickName</td>
+                        <td><img src="@item.HeadUrl" class="user-header-img" /></td>
+                        if (item.Level == AgentLevel.SecondLevel && item.UpperLevelMqAgent != null)
+                        {
+                            <td>@item.UpperLevelMqAgent.NickName</td>
+                        }
+                        else
+                        {
+                            <td>无</td>
+                        }
+                        if (item.Level == AgentLevel.FirstAgentLevel)
+                        {
+                            <td>无</td>
+                            <td>@item.AgentWithdrawalRatio</td>
+                        }
+                        else if (item.Level == AgentLevel.FirstPromoterLevel)
+                        {
+                            <td style="color:red">@item.PromoterWithdrawalRatio</td>
+                            <td>@item.AgentWithdrawalRatio</td>
+                        }
+                        else if (item.Level == AgentLevel.SecondLevel)
+                        {
+                            <td>无</td>
+                            <td>@item.AgentWithdrawalRatio</td>
+                        }
+                        else
+                        {
+                            <td>无</td>
+                            <td>无</td>
+                        }
+                        if (item.Level == AgentLevel.SecondLevel)
+                        {
+                            <td style="color:aqua">无</td>
+                        }
+                        else
+                        {
+                            <td style="color:aqua">@item.InviteCode</td>
+                        }
+                        <td>@EnumHelper.GetDescription(item.State)</td>
+                        if (item.Source == null)
+                        {
+                            <td>暂无</td>
+                        }
+                        else
+                        {
+                            <td>@item.Source</td>
+                        }
+                        if (item.Company == null)
+                        {
+                            <td>暂无</td>
+                        }
+                        else
+                        {
+                            <td>@item.Company.Name</td>
+                        }
+
+                        var state = (int)item.State;
+
+                        <td class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">menu</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                @{
+                                    if (item.State == AgentState.UnAuditing)
+                                    {
+                                        <li><a href="#" class="waves-effect waves-block editstate" data-agent-id="@item.Id" data-agent-state="@item.State.GetHashCode()" data-state-name="审核通过"><i class="material-icons">edit</i>审核</a></li>
+                                    }
+                                    else if (item.State == AgentState.Audited)
+                                    {
+                                        <li><a href="#" class="waves-effect waves-block editstate" data-agent-id="@item.Id" data-agent-state="@item.State.GetHashCode()" data-state-name="冻结"><i class="material-icons">edit</i>冻结</a></li>
+                                    }
+                                    else if (item.State == AgentState.Suspend)
+                                    {
+                                        <li><a href="#" class="waves-effect waves-block editstate" data-agent-id="@item.Id" data-agent-state="@item.State.GetHashCode()" data-state-name="解冻"><i class="material-icons">edit</i>解冻</a></li>
+                                    }
+                                    else if (item.State == AgentState.Auditing)
+                                    {
+                                        <li><a href="#" class="waves-effect waves-block editstate" data-agent-id="@item.Id" data-agent-state="@item.State.GetHashCode()" data-state-name="审核通过"><i class="material-icons">edit</i>审核</a></li>
+                                    }
+                                    else
+                                    {
+                                    }
+                                    if (item.Level == AgentLevel.FirstPromoterLevel || item.Level == AgentLevel.FirstAgentLevel)
+                                    {
+                                        <li>
+                                            <a class="waves-effect  waves-block" data-agent-id="@item.Id" data-target="#setSourceModal" data-toggle="modal">
+                                                <i class="material-icons">add</i>设置备注
+                                            </a>
+                                        </li>
+                                        if (item.Level == AgentLevel.FirstPromoterLevel)
+                                        {
+                                            <li>
+                                                <a class="waves-effect  waves-block" data-agent-id="@item.Id" data-agent-ratio="@item.PromoterWithdrawalRatio" data-agent-type="promoter" data-target="#setRatioModal" data-toggle="modal">
+                                                    <i class="material-icons">edit</i>设置推广的提现比例
+                                                </a>
+                                            </li>
+
+                                        }
+                                    }
+                                    <li>
+                                        <a class="waves-effect  waves-block" data-agent-id="@item.Id" data-agent-ratio="@item.AgentWithdrawalRatio" data-agent-type="agent" data-target="#setRatioModal" data-toggle="modal">
+                                            <i class="material-icons">add</i>设置代理提现比例
+                                        </a>
+                                    </li>
+
+
+                                    var hasPlayer = item.Player?.IsDeveloper;
+                                    if (hasPlayer.HasValue)
+                                    {
+                                        <li>
+                                            <a style="@(!hasPlayer.Value ? "display:none" : "")" class="waves-effect vtl-rcg  waves-block" data-agent-id="@item.Id" data-player="@item.PlayerId">
+                                                <i class="material-icons">close</i>关闭虚拟充值
+                                            </a>
+                                            <a style="@(hasPlayer.Value ? "display:none" : "")" class="waves-effect vtl-rcg  waves-block" data-agent-id="@item.Id" data-player="@item.PlayerId">
+                                                <i class="material-icons">lock_open</i>开启虚拟充值
+                                            </a>
+
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="disabled">
+                                            <a href="#" class="waves-effect vtl-rcg  waves-block">
+                                                <i class="material-icons">block</i>虚拟充值不可用
+                                            </a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a class="waves-effect  waves-block" data-agent-id="@item.Id" data-target="#setCompanyModal" data-toggle="modal">
+                                            <i class="material-icons">add</i>所属公司
+                                        </a>
+                                    </li>
+
+                                }
+                            </ul>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@*@Html.PagedListPager((IPagedList)Model, page => $"/ChineseBabies/Agent?starttime={Context.Request.Query["starttime"]}&endtime={Context.Request.Query["endtime"]}&username={Context.Request.Query["username"]}&state={Context.Request.Query["state"]}&agentlevel={Context.Request.Query["agentLevel"]}&page={page}")*@
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions() {
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Never,
+    DisplayLinkToNextPage = PagedListDisplayMode.Never,
+    LinkToFirstPageFormat = "首页",
+    LinkToLastPageFormat = "末页",
+    DisplayPageCountAndCurrentLocation = true,
+    PageCountAndCurrentLocationFormat = "每页" + Model.Count + "条共{1}页",
+    //DisplayItemSliceAndTotal = true,
+    //ItemSliceAndTotalFormat = "每页{1}条"
+})
+
+<style type="text/css">
+    .PagedList-pageCountAndLocation {
+        position: absolute;
+        right: 20px;
+        /*color:red !important;*/
+    }
+</style>
+
+

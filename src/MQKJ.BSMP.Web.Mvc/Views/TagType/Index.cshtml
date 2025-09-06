@@ -1,0 +1,112 @@
+﻿@using Abp.Authorization.Users
+@using MQKJ.BSMP.Web.Startup
+@using MQKJ.BSMP;
+@model MQKJ.BSMP.Web.Models.TagTypes.TagTypeListViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.Tags; // The menu item will be active for this page.
+}
+@section scripts
+    {
+        <script src="~/view-resources/Views/Tags/TagType.js" asp-append-version="true"></script>
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @L("TagType")
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>@L("Refresh")</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@L("Id")</th>
+                            <th>@L("TagTypeName")</th>
+                            <th>@L("Code")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tag in Model.TagTypes.Items)
+                        {
+                            <tr>
+                                <td>@tag.Id</td>
+                                <td>@tag.TypeName</td>
+                                <td>@tag.Code</td>
+
+                                <td class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">menu</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="#" class="waves-effect waves-block edit-tagtype" data-tagtype-id="@tag.Id" data-toggle="modal" data-target="#TagTypeEditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
+                                        <li><a href="#" class="waves-effect waves-block delete-tagtype" data-tagtype-id="@tag.Id" data-tagtype-name="@tag.TypeName"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right" data-toggle="modal" data-target="#TagTypeCreateModal">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="TagTypeCreateModal" tabindex="-1" role="dialog" aria-labelledby="TagTypeCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>@L("CreateTitle").FormatString(L("TagType"))</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form name="tagTypeCreateForm" role="form" novalidate class="form-validation">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="typeName" type="text" name="TypeName" required class="validate form-control">
+                                    <label for="typeName" class="form-label">@L("TagTypeName")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="code" type="text" name="Code" class="validate form-control">
+                                    <label for="code" class="form-label">@L("Code")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="button" id="submitbtn" class="btn btn-primary waves-effect">@L("Save")</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="TagTypeEditModal" tabindex="-1" role="dialog" aria-labelledby="TagTypeEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
